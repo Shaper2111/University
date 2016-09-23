@@ -16,14 +16,19 @@ package com.haulmont.testtask.models;
 import java.util.Date;
 
 public class Student extends Entity {
+
     private String firstName;
+
     private String lastName;
+
     private String midName;
+
     private Date birthDate;
+
     private Integer groupNumber;
 
-    Student(Long id, String firstName, String lastName,
-            String midName, Date birthDate, Integer groupNumber) {
+    public Student(Long id, String firstName, String lastName,
+                   String midName, Date birthDate, Integer groupNumber) {
         Id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,7 +37,7 @@ public class Student extends Entity {
         this.groupNumber = groupNumber;
     }
 
-    String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -40,7 +45,7 @@ public class Student extends Entity {
         this.firstName = firstName;
     }
 
-    String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
@@ -48,7 +53,7 @@ public class Student extends Entity {
         this.lastName = lastName;
     }
 
-    String getMidName() {
+    public String getMidName() {
         return midName;
     }
 
@@ -56,7 +61,7 @@ public class Student extends Entity {
         this.midName = midName;
     }
 
-    Date getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
@@ -64,7 +69,7 @@ public class Student extends Entity {
         this.birthDate = birthDate;
     }
 
-    Integer getGroupNumber() {
+    public Integer getGroupNumber() {
         return groupNumber;
     }
 

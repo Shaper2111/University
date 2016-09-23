@@ -14,10 +14,12 @@
 package com.haulmont.testtask.models;
 
 public class Group extends Entity {
+
     private Integer Number;
+
     private String Department;
 
-    Group(Long id, Integer number, String department) {
+    public Group(Long id, Integer number, String department) {
         Id = id;
         Number = number;
         Department = department;

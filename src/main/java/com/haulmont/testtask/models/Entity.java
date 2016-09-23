@@ -14,7 +14,7 @@
 package com.haulmont.testtask.models;
 
 public abstract class Entity {
-    public Long Id;
+    Long Id;
 
     Entity(){
     }

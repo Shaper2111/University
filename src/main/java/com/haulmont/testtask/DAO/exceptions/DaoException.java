@@ -15,4 +15,11 @@ package com.haulmont.testtask.DAO.exceptions;
 
 public class DaoException extends Exception {
 
+    public DaoException(Exception e){
+        super(e);
+    }
+
+    public DaoException(String msg, Exception e){
+        super(msg, e);
+    }
 }
