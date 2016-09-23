@@ -16,15 +16,25 @@ package com.haulmont.testtask.DAO;
 import com.haulmont.testtask.DAO.exceptions.DaoException;
 import com.haulmont.testtask.models.Entity;
 
+import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-interface IGenericDao<T extends Entity> {
 
-    T create() throws DaoException;
+interface IGenericDao<T extends Entity, PK extends Serializable> {
 
-    T get(int Id) throws DaoException;
+    PK create(T obj) throws DaoException;
+
+    T get(PK Id) throws DaoException;
 
     void update(T object) throws DaoException;
 
     void delete(T object) throws DaoException;
+
+    String getQuerySQL();
+
+    String createQuerySQL(T obj);
+
+    T parseResult(ResultSet rs) throws SQLException;
 
 }

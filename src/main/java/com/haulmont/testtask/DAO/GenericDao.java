@@ -14,18 +14,48 @@
 package com.haulmont.testtask.DAO;
 
 import com.haulmont.testtask.DAO.exceptions.DaoException;
+import com.haulmont.testtask.db.exceptions.DBException;
 import com.haulmont.testtask.models.Entity;
+import com.haulmont.testtask.db.DBConnection;
 
-abstract class GenericDao<T extends Entity> implements IGenericDao<T> {
+import java.io.Serializable;
+import java.sql.*;
+
+
+abstract class GenericDao<T extends Entity, PK extends Serializable>
+        implements IGenericDao<T, PK> {
 
     @Override
-    public T create() throws DaoException {
-        return null;
+    public PK create(T obj) throws DaoException {
+        String sql = createQuerySQL(obj);
+        try (Statement st = DBConnection.getInstance()
+                .getConnection().createStatement()){
+            ResultSet rs = st.executeQuery(sql);
+            try (ResultSet res = st.getGeneratedKeys()){
+                res.next();
+                return (PK) res.getObject(1);
+            }
+        } catch (DBException e) {
+            throw new DaoException(e);
+        } catch (SQLException e) {
+            throw new DaoException("Error while execute create SQL " +
+                    "statement", e);
+        }
     }
 
     @Override
-    public T get(int Id) throws DaoException {
-        return null;
+    public T get(PK Id) throws DaoException {
+        String sql = getQuerySQL() + " WHERE ID = " + Id + ";";
+        try (Statement st = DBConnection.getInstance()
+                .getConnection().createStatement()){
+            ResultSet rs = st.executeQuery(sql);
+            return parseResult(rs);
+        } catch (DBException e) {
+            throw new DaoException(e);
+        } catch (SQLException e) {
+            throw new DaoException("Error while execute get SQL " +
+                    "statement", e);
+        }
     }
 
     @Override

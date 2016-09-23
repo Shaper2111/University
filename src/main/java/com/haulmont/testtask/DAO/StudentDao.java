@@ -16,12 +16,39 @@ package com.haulmont.testtask.DAO;
 import com.haulmont.testtask.DAO.exceptions.DaoException;
 import com.haulmont.testtask.models.Student;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
-class StudentDao extends GenericDao<Student> implements IStudentDao {
+class StudentDao extends GenericDao<Student, Long>
+        implements IStudentDao {
 
     @Override
     public List<Student> getAll() throws DaoException {
         return null;
+    }
+
+    @Override
+    public String getQuerySQL() {
+        return "SELECT * FROM STUDENTS";
+    }
+
+    @Override
+    public String createQuerySQL(Student st) {
+        return "INSERT INTO STUDENTS (FIRSTNAME, LASTNAME, MIDNAME," +
+                "BIRTHDATE, GROUPNUMBER) VALUES ('"
+                + st.getFirstName() + "','"
+                + st.getLastName() + "','"
+                + st.getMidName() + "','"
+                + st.getBirthDate() + "','"
+                + st.getGroupNumber() + "');";
+    }
+
+    @Override
+    public Student parseResult(ResultSet rs) throws SQLException {
+        return new Student(rs.getLong("Id"),
+                rs.getString("firstName"), rs.getString("lastName"),
+                rs.getString("midName"), rs.getDate("birthDate"),
+                rs.getInt("groupNumber"));
     }
 }

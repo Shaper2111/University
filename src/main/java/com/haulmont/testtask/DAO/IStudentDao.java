@@ -19,6 +19,6 @@ import com.haulmont.testtask.models.Student;
 import java.util.List;
 
 
-interface IStudentDao extends IGenericDao<Student> {
+interface IStudentDao extends IGenericDao<Student, Long> {
     List<Student> getAll() throws DaoException;
 }

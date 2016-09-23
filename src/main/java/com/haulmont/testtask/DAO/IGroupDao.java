@@ -18,6 +18,6 @@ import com.haulmont.testtask.models.Group;
 
 import java.util.List;
 
-interface IGroupDao extends IGenericDao<Group> {
+interface IGroupDao extends IGenericDao<Group, Long> {
     List<Group> getAll() throws DaoException;
 }
