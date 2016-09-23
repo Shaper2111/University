@@ -15,27 +15,22 @@ package com.haulmont.testtask.db;
 
 import com.haulmont.testtask.db.exceptions.DBException;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 /**
  * A singleton class, that controls connection to database.
  */
-class DBConnection {
+public class DBConnection {
 
     private Connection connection;
 
-    private String name = "dbpath";
-
-    private String user = "SA";
-
-    private String passwd = "";
-
-    private String path = "jdbc:hsqldb:file:" + name + "/";
-
-    private String driver = "org.hsqldb.jdbcDriver";
+    private static Properties props;
 
     private volatile static DBConnection instance;
 
@@ -58,16 +53,32 @@ class DBConnection {
 
     private DBConnection() throws DBException {
         try {
-            Class.forName(driver);
+            if (props == null){
+                props = new Properties();
+                props.load(getConfigFile());
+            }
+            Class.forName(props.getProperty("DB_DRIVER"));
         } catch (ClassNotFoundException e) {
             throw new DBException("Failed to load JDBC Driver: ", e);
+        } catch (IOException e) {
+            props = null;
+            throw new DBException("Failed to load DB config: ", e);
+        }
+    }
+
+    private InputStream getConfigFile() throws IOException {
+        try(InputStream file = getClass()
+                .getResourceAsStream("db.properties")) {
+            return file;
         }
     }
 
     private void connect() throws DBException {
         try {
-            connection = DriverManager.getConnection(path, user,
-                    passwd);
+            connection = DriverManager
+                    .getConnection(props.getProperty("DB_URL"),
+                            props.getProperty("DB_USER"),
+                            props.getProperty("DB_PASS"));
         } catch (SQLException e) {
             instance = null;
             throw new DBException("Failed to connect with DB", e);
