@@ -16,8 +16,10 @@ package com.haulmont.testtask.DAO;
 import com.haulmont.testtask.DAO.exceptions.DaoException;
 import com.haulmont.testtask.models.Group;
 
+import java.io.Serializable;
 import java.util.List;
 
-interface IGroupDao extends IGenericDao<Group, Long> {
+interface IGroupDao<PK extends Serializable>
+        extends IGenericDao<Group, PK> {
     List<Group> getAll() throws DaoException;
 }

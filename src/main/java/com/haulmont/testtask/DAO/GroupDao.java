@@ -14,33 +14,76 @@
 package com.haulmont.testtask.DAO;
 
 import com.haulmont.testtask.DAO.exceptions.DaoException;
+import com.haulmont.testtask.db.DBConnection;
+import com.haulmont.testtask.db.exceptions.DBException;
 import com.haulmont.testtask.models.Group;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-class GroupDao extends GenericDao<Group, Long> implements IGroupDao {
+class GroupDao extends GenericDao<Group, Long>
+        implements IGroupDao<Long> {
 
-    GroupDao(Class<Long> longClass) {
-        super(longClass);
+    GroupDao() {
+        super(Long.class);
     }
 
     @Override
     public List<Group> getAll() throws DaoException {
-        return null;
+        String sql = "SELECT * FROM GROUPS";
+        try (PreparedStatement prest = DBConnection.getInstance()
+                .getConnection().prepareStatement(sql)){
+            List<Group> list = new ArrayList<>();
+            ResultSet rs = prest.executeQuery();
+            while (rs.next()){
+                list.add(parseResult(rs));
+            }
+            return list;
+        } catch (DBException e) {
+            throw new DaoException(e);
+        } catch (SQLException e) {
+            throw new DaoException("Error while execute bulk get " +
+                    "SQL statement", e);
+        }
     }
 
     @Override
     public String getQuerySQL() {
-        return "SELECT * FROM GROUPS";
+        return "SELECT * FROM GROUPS WHERE ID = ?";
     }
 
     @Override
-    public String createQuerySQL(Group g) {
-        return "INSERT INTO GROUPS (NUMBER, DEPARTMENT) VALUES ('"
-                + g.getNumber() + "','"
-                + g.getDepartment() + "');";
+    public String createQuerySQL() {
+        return "INSERT INTO GROUPS (NUMBER, DEPARTMENT) VALUES (?,?)";
+    }
+
+    @Override
+    public String updateQuerySQL() {
+        return "UPDATE GROUPS SET NUMBER = ?, DEPARTMENT = ? " +
+                "WHERE ID = ?";
+    }
+
+    @Override
+    public String deleteQuerySQL() {
+        return "DELETE FROM GROUPS WHERE ID = ?";
+    }
+
+    @Override
+    public void prepareCreateSQL(PreparedStatement prest, Group group)
+            throws SQLException {
+        prest.setInt(1, group.getNumber());
+        prest.setString(2, group.getDepartment());
+    }
+
+    @Override
+    public void prepareUpdateSQL(PreparedStatement prest, Group group)
+            throws SQLException {
+        prest.setInt(1, group.getNumber());
+        prest.setString(2, group.getDepartment());
+        prest.setLong(3, group.getId());
     }
 
     @Override

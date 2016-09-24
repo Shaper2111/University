@@ -17,11 +17,11 @@ class Factory implements IFactory {
 
     @Override
     public IStudentDao getStudentDao() {
-        return null;
+        return new StudentDao();
     }
 
     @Override
     public IGroupDao getGroupDao() {
-        return null;
+        return new GroupDao();
     }
 }

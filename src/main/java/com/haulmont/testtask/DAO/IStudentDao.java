@@ -16,9 +16,11 @@ package com.haulmont.testtask.DAO;
 import com.haulmont.testtask.DAO.exceptions.DaoException;
 import com.haulmont.testtask.models.Student;
 
+import java.io.Serializable;
 import java.util.List;
 
 
-interface IStudentDao extends IGenericDao<Student, Long> {
+interface IStudentDao<PK extends Serializable> extends
+        IGenericDao<Student, PK> {
     List<Student> getAll() throws DaoException;
 }
