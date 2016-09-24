@@ -22,6 +22,10 @@ import java.util.List;
 
 class GroupDao extends GenericDao<Group, Long> implements IGroupDao {
 
+    GroupDao(Class<Long> longClass) {
+        super(longClass);
+    }
+
     @Override
     public List<Group> getAll() throws DaoException {
         return null;

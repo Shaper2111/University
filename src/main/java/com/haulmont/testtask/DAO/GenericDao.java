@@ -24,6 +24,11 @@ import java.sql.*;
 
 abstract class GenericDao<T extends Entity, PK extends Serializable>
         implements IGenericDao<T, PK> {
+    private final transient Class<PK> pkClass;
+
+    GenericDao(Class<PK> pkClass){
+        this.pkClass = pkClass;
+    }
 
     @Override
     public PK create(T obj) throws DaoException {
@@ -33,7 +38,7 @@ abstract class GenericDao<T extends Entity, PK extends Serializable>
             ResultSet rs = st.executeQuery(sql);
             try (ResultSet res = st.getGeneratedKeys()){
                 res.next();
-                return (PK) res.getObject(1);
+                return pkClass.cast(res.getObject(1));
             }
         } catch (DBException e) {
             throw new DaoException(e);

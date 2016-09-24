@@ -23,6 +23,10 @@ import java.util.List;
 class StudentDao extends GenericDao<Student, Long>
         implements IStudentDao {
 
+    StudentDao(Class<Long> longClass) {
+        super(longClass);
+    }
+
     @Override
     public List<Student> getAll() throws DaoException {
         return null;
