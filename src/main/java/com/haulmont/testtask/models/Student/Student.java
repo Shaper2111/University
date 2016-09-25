@@ -1,21 +1,10 @@
-/*
- * %W% %E% Firstname Lastname
- *
- * Copyright (c) 2016.
- *
- * Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- *
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
+package com.haulmont.testtask.models.Student;
 
-package com.haulmont.testtask.models;
+import com.haulmont.testtask.models.Entity;
 
 import java.util.Date;
 
-public class Student extends Entity {
+class Student extends Entity {
 
     private String firstName;
 
@@ -27,9 +16,9 @@ public class Student extends Entity {
 
     private Integer groupNumber;
 
-    public Student(Long id, String firstName, String lastName,
-                   String midName, Date birthDate, Integer groupNumber) {
-        Id = id;
+    Student(Long id, String firstName, String lastName,
+            String midName, Date birthDate, Integer groupNumber) {
+        super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.midName = midName;
@@ -37,7 +26,7 @@ public class Student extends Entity {
         this.groupNumber = groupNumber;
     }
 
-    public String getFirstName() {
+    String getFirstName() {
         return firstName;
     }
 
@@ -45,7 +34,7 @@ public class Student extends Entity {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    String getLastName() {
         return lastName;
     }
 
@@ -53,7 +42,7 @@ public class Student extends Entity {
         this.lastName = lastName;
     }
 
-    public String getMidName() {
+    String getMidName() {
         return midName;
     }
 
@@ -61,7 +50,7 @@ public class Student extends Entity {
         this.midName = midName;
     }
 
-    public Date getBirthDate() {
+    Date getBirthDate() {
         return birthDate;
     }
 
@@ -69,7 +58,7 @@ public class Student extends Entity {
         this.birthDate = birthDate;
     }
 
-    public Integer getGroupNumber() {
+    Integer getGroupNumber() {
         return groupNumber;
     }
 

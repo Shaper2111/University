@@ -1,22 +1,9 @@
-/*
- * %W% %E% Firstname Lastname
- *
- * Copyright (c) 2016.
- *
- * Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- *
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
+package com.haulmont.testtask.models.Group;
 
-package com.haulmont.testtask.DAO;
-
-import com.haulmont.testtask.DAO.exceptions.DaoException;
-import com.haulmont.testtask.db.DBConnection;
-import com.haulmont.testtask.db.exceptions.DBException;
-import com.haulmont.testtask.models.Group;
+import com.haulmont.testtask.models.db.DBConnection;
+import com.haulmont.testtask.models.db.GenericDao;
+import com.haulmont.testtask.models.db.exceptions.DBException;
+import com.haulmont.testtask.models.db.exceptions.DaoException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,21 +11,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-class GroupDao extends GenericDao<Group, Long>
+public class GroupDao extends GenericDao<Group, Long>
         implements IGroupDao<Long> {
 
-    GroupDao() {
+    public GroupDao() {
         super(Long.class);
     }
 
     @Override
     public List<Group> getAll() throws DaoException {
         String sql = "SELECT * FROM GROUPS";
-        try (PreparedStatement prest = DBConnection.getInstance()
-                .getConnection().prepareStatement(sql)){
+        try (PreparedStatement pres = DBConnection.getInstance()
+                .getConnection().prepareStatement(sql)) {
             List<Group> list = new ArrayList<>();
-            ResultSet rs = prest.executeQuery();
-            while (rs.next()){
+            ResultSet rs = pres.executeQuery();
+            while (rs.next()) {
                 list.add(parseResult(rs));
             }
             return list;
@@ -72,18 +59,18 @@ class GroupDao extends GenericDao<Group, Long>
     }
 
     @Override
-    public void prepareCreateSQL(PreparedStatement prest, Group group)
+    public void prepareCreateSQL(PreparedStatement pres, Group group)
             throws SQLException {
-        prest.setInt(1, group.getNumber());
-        prest.setString(2, group.getDepartment());
+        pres.setInt(1, group.getNumber());
+        pres.setString(2, group.getDepartment());
     }
 
     @Override
-    public void prepareUpdateSQL(PreparedStatement prest, Group group)
+    public void prepareUpdateSQL(PreparedStatement pres, Group group)
             throws SQLException {
-        prest.setInt(1, group.getNumber());
-        prest.setString(2, group.getDepartment());
-        prest.setLong(3, group.getId());
+        pres.setInt(1, group.getNumber());
+        pres.setString(2, group.getDepartment());
+        pres.setLong(3, group.getId());
     }
 
     @Override

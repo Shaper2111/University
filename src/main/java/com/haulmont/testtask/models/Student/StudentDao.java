@@ -1,22 +1,9 @@
-/*
- * %W% %E% Firstname Lastname
- *
- * Copyright (c) 2016. 
- *
- * Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan. 
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna. 
- *
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus. 
- * Vestibulum commodo. Ut rhoncus gravida arcu. 
- */
+package com.haulmont.testtask.models.Student;
 
-package com.haulmont.testtask.DAO;
-
-import com.haulmont.testtask.DAO.exceptions.DaoException;
-import com.haulmont.testtask.db.DBConnection;
-import com.haulmont.testtask.db.exceptions.DBException;
-import com.haulmont.testtask.models.Student;
+import com.haulmont.testtask.models.db.DBConnection;
+import com.haulmont.testtask.models.db.GenericDao;
+import com.haulmont.testtask.models.db.exceptions.DBException;
+import com.haulmont.testtask.models.db.exceptions.DaoException;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -25,21 +12,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-class StudentDao extends GenericDao<Student, Long>
+public class StudentDao extends GenericDao<Student, Long>
         implements IStudentDao<Long> {
 
-    StudentDao() {
+    public StudentDao() {
         super(Long.class);
     }
 
     @Override
     public List<Student> getAll() throws DaoException {
         String sql = "SELECT * FROM STUDENTS";
-        try (PreparedStatement prest = DBConnection.getInstance()
-                .getConnection().prepareStatement(sql)){
-            ResultSet rs = prest.executeQuery();
+        try (PreparedStatement pres = DBConnection.getInstance()
+                .getConnection().prepareStatement(sql)) {
+            ResultSet rs = pres.executeQuery();
             List<Student> list = new ArrayList<>();
-            while (rs.next()){
+            while (rs.next()) {
                 list.add(parseResult(rs));
             }
             return list;

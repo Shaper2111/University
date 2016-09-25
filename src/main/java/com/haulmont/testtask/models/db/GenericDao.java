@@ -1,44 +1,32 @@
-/*
- * %W% %E% Firstname Lastname
- *
- * Copyright (c) 2016.
- *
- * Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- *
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- */
+package com.haulmont.testtask.models.db;
 
-package com.haulmont.testtask.DAO;
-
-import com.haulmont.testtask.DAO.exceptions.DaoException;
-import com.haulmont.testtask.db.exceptions.DBException;
 import com.haulmont.testtask.models.Entity;
-import com.haulmont.testtask.db.DBConnection;
+import com.haulmont.testtask.models.db.exceptions.DBException;
+import com.haulmont.testtask.models.db.exceptions.DaoException;
 
 import java.io.Serializable;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
-abstract class GenericDao<T extends Entity, PK extends Serializable>
+public abstract class GenericDao<T extends Entity, PK extends Serializable>
         implements IGenericDao<T, PK> {
 
     private final transient Class<PK> pkClass;
 
-    GenericDao(Class<PK> pkClass){
+    protected GenericDao(Class<PK> pkClass) {
         this.pkClass = pkClass;
     }
 
     @Override
     public PK create(T obj) throws DaoException {
         String sql = createQuerySQL();
-        try (PreparedStatement prest = DBConnection.getInstance()
-                .getConnection().prepareStatement(sql)){
-            prepareCreateSQL(prest, obj);
-            ResultSet rs = prest.executeQuery();
-            try (ResultSet res = prest.getGeneratedKeys()){
+        try (PreparedStatement pres = DBConnection.getInstance()
+                .getConnection().prepareStatement(sql)) {
+            prepareCreateSQL(pres, obj);
+            pres.executeQuery();
+            try (ResultSet res = pres.getGeneratedKeys()) {
                 res.next();
                 return pkClass.cast(res.getObject(1));
             }
@@ -53,10 +41,10 @@ abstract class GenericDao<T extends Entity, PK extends Serializable>
     @Override
     public T get(PK Id) throws DaoException {
         String sql = getQuerySQL();
-        try (PreparedStatement prest = DBConnection.getInstance()
-                .getConnection().prepareStatement(sql)){
-            prest.setObject(1, Id);
-            ResultSet rs = prest.executeQuery();
+        try (PreparedStatement pres = DBConnection.getInstance()
+                .getConnection().prepareStatement(sql)) {
+            pres.setObject(1, Id);
+            ResultSet rs = pres.executeQuery();
             return parseResult(rs);
         } catch (DBException e) {
             throw new DaoException(e);
@@ -69,10 +57,10 @@ abstract class GenericDao<T extends Entity, PK extends Serializable>
     @Override
     public void update(T object) throws DaoException {
         String sql = updateQuerySQL();
-        try (PreparedStatement prest = DBConnection.getInstance()
-                .getConnection().prepareStatement(sql)){
-            prepareUpdateSQL(prest, object);
-            ResultSet rs = prest.executeQuery();
+        try (PreparedStatement pres = DBConnection.getInstance()
+                .getConnection().prepareStatement(sql)) {
+            prepareUpdateSQL(pres, object);
+            pres.executeQuery();
         } catch (DBException e) {
             throw new DaoException(e);
         } catch (SQLException e) {
@@ -84,10 +72,10 @@ abstract class GenericDao<T extends Entity, PK extends Serializable>
     @Override
     public void delete(T object) throws DaoException {
         String sql = deleteQuerySQL();
-        try (PreparedStatement prest = DBConnection.getInstance()
-                .getConnection().prepareStatement(sql)){
-            prest.setObject(1, object.getId());
-            ResultSet rs = prest.executeQuery();
+        try (PreparedStatement pres = DBConnection.getInstance()
+                .getConnection().prepareStatement(sql)) {
+            pres.setObject(1, object.getId());
+            pres.executeQuery();
         } catch (DBException e) {
             throw new DaoException(e);
         } catch (SQLException e) {
