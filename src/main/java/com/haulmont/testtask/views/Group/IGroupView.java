@@ -1,5 +1,6 @@
 package com.haulmont.testtask.views.Group;
 
-interface IGroupView {
+import com.vaadin.navigator.View;
 
+interface IGroupView extends View {
 }

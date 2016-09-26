@@ -1,5 +1,7 @@
 package com.haulmont.testtask.views.Student;
 
-interface IStudentView {
+import com.vaadin.navigator.View;
+
+interface IStudentView extends View {
 
 }

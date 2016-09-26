@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8" name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src&quot;,&quot;THEME&quot;:&quot;valo&quot;}">
+  <meta charset="UTF-8" name="vaadin-version" content="7.7.0">
+ </head> 
+ <body> 
+  <vaadin-vertical-layout style-name="root-layout navigation-template-vaadin" responsive size-full> 
+   <vaadin-horizontal-layout style-name="main-area-layout" size-full _id="main_area" :expand> 
+    <vaadin-css-layout style-name="side-bar" height-full _id="side_bar"> 
+     <vaadin-vertical-layout spacing margin-top _id="header_bar"> 
+      <vaadin-label icon="fonticon://FontAwesome/f19c" caption="UNIVERSITY" width="0px" height="0px" plain-text :middle :center></vaadin-label> 
+     </vaadin-vertical-layout> 
+     <vaadin-native-button icon="fonticon://FontAwesome/f0c0" style-name="menu-button" width-full plain-text _id="menuButton1">
+       Groups 
+     </vaadin-native-button> 
+     <vaadin-native-button icon="fonticon://FontAwesome/f19d" style-name="menu-button" width-full plain-text _id="menuButton2">
+       Students 
+     </vaadin-native-button> 
+    </vaadin-css-layout> 
+    <vaadin-panel style-name="scroll-panel" size-full _id="scroll_panel" :expand></vaadin-panel> 
+   </vaadin-horizontal-layout> 
+  </vaadin-vertical-layout>  
+ </body>
+</html>

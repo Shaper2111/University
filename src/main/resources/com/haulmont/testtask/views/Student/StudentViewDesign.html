@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+ <head>  
+  <meta charset="UTF-8" name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;THEME&quot;:&quot;valo&quot;}">
+  <meta charset="UTF-8" name="vaadin-version" content="7.7.0">
+  <meta charset="UTF-8" name="package-mapping" content="com_haulmont_testtask_views_group:com.haulmont.testtask.views.Group">
+ </head> 
+ <body> 
+  <vaadin-vertical-layout> 
+   <vaadin-horizontal-layout width-full margin-left margin-right margin-top> 
+    <vaadin-label size-auto plain-text>
+      Students 
+    </vaadin-label> 
+    <vaadin-horizontal-layout :middle :right> 
+     <vaadin-native-button plain-text _id="addNewButton">
+       Add New 
+     </vaadin-native-button> 
+     <vaadin-native-button plain-text _id="editRow">
+       Edit 
+     </vaadin-native-button> 
+     <vaadin-native-button plain-text _id="deleteRow">
+       Delete 
+     </vaadin-native-button> 
+    </vaadin-horizontal-layout> 
+   </vaadin-horizontal-layout> 
+   <vaadin-vertical-split-panel height-auto></vaadin-vertical-split-panel> 
+   <vaadin-grid width-full> 
+    <table> 
+     <colgroup> 
+      <col property-id="Project" sortable> 
+      <col property-id="Status" sortable> 
+     </colgroup> 
+     <thead> 
+      <tr default> 
+       <th plain-text>Project</th> 
+       <th plain-text>Status</th> 
+      </tr> 
+     </thead> 
+     <tbody> 
+      <tr> 
+       <td>Customer Project 1</td> 
+       <td>OK</td> 
+      </tr> 
+      <tr> 
+       <td>Customer Project 2</td> 
+       <td>OK</td> 
+      </tr> 
+      <tr> 
+       <td>Customer Project 3</td> 
+       <td>OK</td> 
+      </tr> 
+      <tr> 
+       <td>Customer Project 4</td> 
+       <td>OK</td> 
+      </tr> 
+      <tr> 
+       <td>Customer Project 5</td> 
+       <td>OK</td> 
+      </tr> 
+      <tr> 
+       <td>Customer Project 6</td> 
+       <td>OK</td> 
+      </tr> 
+      <tr> 
+       <td>Customer Project 7</td> 
+       <td>OK</td> 
+      </tr> 
+      <tr> 
+       <td>Customer Project 8</td> 
+       <td>OK</td> 
+      </tr> 
+      <tr> 
+       <td>Customer Project 9</td> 
+       <td>OK</td> 
+      </tr> 
+     </tbody> 
+    </table> 
+   </vaadin-grid> 
+  </vaadin-vertical-layout>  
+ </body>
+</html>
