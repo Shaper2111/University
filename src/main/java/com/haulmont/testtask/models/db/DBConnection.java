@@ -25,8 +25,7 @@ public class DBConnection {
     private DBConnection() throws DBException {
         try {
             if (props == null) {
-                props = new Properties();
-                props.load(getConfigFile());
+                readConfigFile();
             }
             Class.forName(props.getProperty("DB_DRIVER"));
         } catch (ClassNotFoundException e) {
@@ -53,10 +52,11 @@ public class DBConnection {
         return connection;
     }
 
-    private InputStream getConfigFile() throws IOException {
-        try (InputStream file = getClass()
+    private void readConfigFile() throws IOException {
+        try (InputStream file = getClass().getClassLoader()
                 .getResourceAsStream("db.properties")) {
-            return file;
+            props = new Properties();
+            props.load(file);
         }
     }
 

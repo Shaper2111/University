@@ -1,32 +1,32 @@
 package com.haulmont.testtask.models.Group;
-
 import com.haulmont.testtask.models.Entity;
 
-class Group extends Entity {
 
-    private Integer Number;
+public class Group extends Entity {
 
-    private String Department;
+    private Integer number;
+
+    private String department;
 
     Group(Long id, Integer number, String department) {
         super(id);
-        Number = number;
-        Department = department;
+        this.number = number;
+        this.department = department;
     }
 
-    Integer getNumber() {
-        return Number;
+    public Integer getNumber() {
+        return number;
     }
 
     void setNumber(Integer number) {
-        Number = number;
+        this.number = number;
     }
 
-    String getDepartment() {
-        return Department;
+    public String getDepartment() {
+        return this.department;
     }
 
     void setDepartment(String department) {
-        Department = department;
+        this.department = department;
     }
 }

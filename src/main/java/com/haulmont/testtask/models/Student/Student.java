@@ -4,13 +4,14 @@ import com.haulmont.testtask.models.Entity;
 
 import java.util.Date;
 
-class Student extends Entity {
+
+public class Student extends Entity {
 
     private String firstName;
 
-    private String lastName;
-
     private String midName;
+
+    private String lastName;
 
     private Date birthDate;
 
@@ -26,7 +27,7 @@ class Student extends Entity {
         this.groupNumber = groupNumber;
     }
 
-    String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -34,15 +35,7 @@ class Student extends Entity {
         this.firstName = firstName;
     }
 
-    String getLastName() {
-        return lastName;
-    }
-
-    void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    String getMidName() {
+    public String getMidName() {
         return midName;
     }
 
@@ -50,7 +43,13 @@ class Student extends Entity {
         this.midName = midName;
     }
 
-    Date getBirthDate() {
+    public String getLastName() { return lastName; }
+
+    void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getBirthDate() {
         return birthDate;
     }
 
@@ -58,7 +57,7 @@ class Student extends Entity {
         this.birthDate = birthDate;
     }
 
-    Integer getGroupNumber() {
+    public Integer getGroupNumber() {
         return groupNumber;
     }
 

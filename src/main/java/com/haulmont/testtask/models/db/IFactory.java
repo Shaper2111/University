@@ -6,7 +6,7 @@ import com.haulmont.testtask.models.Student.IStudentDao;
 
 interface IFactory {
 
-    IStudentDao getStudentDao();
+    static IStudentDao getStudentDao(){ return null; }
 
-    IGroupDao getGroupDao();
+    static IGroupDao getGroupDao() { return null; }
 }
