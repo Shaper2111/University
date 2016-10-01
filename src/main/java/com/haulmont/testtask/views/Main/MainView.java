@@ -16,9 +16,9 @@ public class MainView extends MainViewDesign  implements ViewDisplay {
     public MainView() {
         navigator = new Navigator(UI.getCurrent(),
                 (ViewDisplay) this);
-        addViewtoNavigator(GroupView.VIEW_NAME, GroupView.class,
+        addViewToNavigator(GroupView.VIEW_NAME, GroupView.class,
                 menuButton1);
-        addViewtoNavigator(StudentView.VIEW_NAME, StudentView.class,
+        addViewToNavigator(StudentView.VIEW_NAME, StudentView.class,
                 menuButton2);
         if (navigator.getState().isEmpty()) {
             navigator.navigateTo(GroupView.VIEW_NAME);
@@ -29,7 +29,7 @@ public class MainView extends MainViewDesign  implements ViewDisplay {
         getUI().getNavigator().navigateTo(viewName);
     }
 
-    void addViewtoNavigator(String viewName,
+    private void addViewToNavigator(String viewName,
                             Class<? extends View> viewClass,
                             Button menuButton){
         navigator.addView(viewName, viewClass);

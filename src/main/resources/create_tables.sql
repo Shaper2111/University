@@ -14,8 +14,8 @@ create table students
 (
   Id bigint primary key not null identity,
   firstname varchar(50) not null,
-  lastname varchar(50) not null,
   midname varchar(50) not null,
+  lastname varchar(50) not null,
   birthdate date not null,
   groupnumber integer not null,
   constraint students_groups_number_fk foreign key (groupnumber)

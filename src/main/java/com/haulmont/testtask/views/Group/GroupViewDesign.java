@@ -21,9 +21,9 @@ public class GroupViewDesign extends VerticalLayout {
 
     protected NativeButton addNewButton;
 
-    protected NativeButton editRow;
+    protected NativeButton editButton;
 
-    protected NativeButton deleteRow;
+    protected NativeButton deleteButton;
 
     public GroupViewDesign() {
         Design.read(this);
