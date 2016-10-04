@@ -38,6 +38,26 @@ public class GroupDao extends GenericDao<Group, Long>
     }
 
     @Override
+    public List<Group> getOnlyIdWithNumbers() throws DaoException {
+        String sql = "SELECT ID, NUMBER FROM GROUPS";
+        try (PreparedStatement pres = DBConnection.getInstance()
+                .getConnection().prepareStatement(sql)) {
+            List<Group> list = new ArrayList<>();
+            ResultSet rs = pres.executeQuery();
+            while (rs.next())
+                list.add(new Group(rs.getLong("Id"),
+                    rs.getInt("number"))
+                );
+            return list;
+        } catch (DBException e) {
+            throw new DaoException(e);
+        } catch (SQLException e) {
+            throw new DaoException("Error while execute bulk get " +
+                    "SQL statement", e);
+        }
+    }
+
+    @Override
     public String getQuerySQL() {
         return "SELECT * FROM GROUPS WHERE ID = ?";
     }
@@ -78,4 +98,5 @@ public class GroupDao extends GenericDao<Group, Long>
         return new Group(rs.getLong("Id"), rs.getInt("Number"),
                 rs.getString("Department"));
     }
+
 }

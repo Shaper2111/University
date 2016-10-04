@@ -1,5 +1,6 @@
 package com.haulmont.testtask.views.Group;
 
-interface IGroupViewListener {
+public interface IGroupViewListener {
     void showData();
+    void applyForm();
 }

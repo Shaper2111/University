@@ -27,4 +27,9 @@ class GroupPresenter implements IGroupViewListener {
         }
         view.generateGrid(container);
     }
+
+    @Override
+    public void applyForm() {
+
+    }
 }

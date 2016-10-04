@@ -1,26 +1,35 @@
 package com.haulmont.testtask.views.Group.windows;
 
-import com.haulmont.testtask.views.Main.windows.ModalWindow;
+import com.haulmont.testtask.views.Group.GroupView;
+import com.haulmont.testtask.views.Group.forms.GroupForm;
+import com.vaadin.data.Item;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.UI;
 
-public class AddGroupWindow extends ModalWindow {
+public class AddGroupWindow extends AddGroupWindowDesign {
+    private GroupView view;
+    private GroupForm form;
 
-    AddGroupWindowDesign content = new AddGroupWindowDesign();
+    public AddGroupWindow(GroupView view) {
+        this.view = view;
 
-    public AddGroupWindow(String caption) {
-        super(caption);
-        content.addOkButton.addClickListener(this::AddOkButtonClick);
-        content.addCancelButton.addClickListener
+        form = new GroupForm();
+        addComponentAsFirst(form);
+
+        addOkButton.addClickListener(this::AddOkButtonClick);
+        addCancelButton.addClickListener
                 (this::AddCancelButtonClick);
-        this.setContent(content);
+
+        this.view.getAddNewWindow().setContent(this);
+        UI.getCurrent().addWindow(this.view.getAddNewWindow());
     }
 
     private void AddOkButtonClick(Button.ClickEvent event){
-        this.close();
-
+        Item item  = form.commit();
+        this.view.getAddNewWindow().close();
     }
 
     private void AddCancelButtonClick(Button.ClickEvent event){
-        this.close();
+        this.view.getAddNewWindow().close();
     }
 }

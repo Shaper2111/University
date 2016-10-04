@@ -1,6 +1,8 @@
 package com.haulmont.testtask.models.Student;
 
+import com.haulmont.testtask.models.Group.Group;
 import com.haulmont.testtask.models.db.DBConnection;
+import com.haulmont.testtask.models.db.Factory;
 import com.haulmont.testtask.models.db.GenericDao;
 import com.haulmont.testtask.models.db.exceptions.DBException;
 import com.haulmont.testtask.models.db.exceptions.DaoException;
@@ -36,6 +38,11 @@ public class StudentDao extends GenericDao<Student, Long>
             throw new DaoException("Error while execute bulk get " +
                     "SQL statement", e);
         }
+    }
+
+    @Override
+    public List<Group> getGroupsForSelect() throws DaoException {
+        return Factory.getGroupDao().getOnlyIdWithNumbers();
     }
 
     @Override

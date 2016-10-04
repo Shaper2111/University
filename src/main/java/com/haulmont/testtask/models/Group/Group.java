@@ -8,7 +8,16 @@ public class Group extends Entity {
 
     private String department;
 
-    Group(Long id, Integer number, String department) {
+    public Group(){
+        super();
+    }
+
+    public Group(Long id, Integer number) {
+        super(id);
+        this.number = number;
+    }
+
+    public Group(Long id, Integer number, String department) {
         super(id);
         this.number = number;
         this.department = department;
@@ -18,7 +27,7 @@ public class Group extends Entity {
         return number;
     }
 
-    void setNumber(Integer number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
@@ -26,7 +35,7 @@ public class Group extends Entity {
         return this.department;
     }
 
-    void setDepartment(String department) {
+    public void setDepartment(String department) {
         this.department = department;
     }
 }

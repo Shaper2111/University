@@ -4,7 +4,7 @@ public abstract class Entity {
 
     private Long id;
 
-    Entity() {
+    protected Entity() {
     }
 
     protected Entity(Long id) {

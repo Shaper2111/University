@@ -10,4 +10,7 @@ public interface IGroupDao<PK extends Serializable>
         extends IGenericDao<Group, PK> {
 
     List<Group> getAll() throws DaoException;
+
+    List<Group> getOnlyIdWithNumbers() throws
+            DaoException;
 }

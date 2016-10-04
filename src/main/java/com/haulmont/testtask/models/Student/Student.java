@@ -17,7 +17,11 @@ public class Student extends Entity {
 
     private Integer groupNumber;
 
-    Student(Long id, String firstName, String lastName,
+    public Student(){
+        super();
+    }
+
+    public Student(Long id, String firstName, String lastName,
             String midName, Date birthDate, Integer groupNumber) {
         super(id);
         this.firstName = firstName;
@@ -31,7 +35,7 @@ public class Student extends Entity {
         return firstName;
     }
 
-    void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -39,13 +43,13 @@ public class Student extends Entity {
         return midName;
     }
 
-    void setMidName(String midName) {
+    public void setMidName(String midName) {
         this.midName = midName;
     }
 
     public String getLastName() { return lastName; }
 
-    void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -53,7 +57,7 @@ public class Student extends Entity {
         return birthDate;
     }
 
-    void setBirthDate(Date birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -61,7 +65,7 @@ public class Student extends Entity {
         return groupNumber;
     }
 
-    void setGroupNumber(Integer groupNumber) {
+    public void setGroupNumber(Integer groupNumber) {
         this.groupNumber = groupNumber;
     }
 }

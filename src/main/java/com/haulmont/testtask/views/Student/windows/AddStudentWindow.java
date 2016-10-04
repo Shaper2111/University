@@ -1,26 +1,33 @@
 package com.haulmont.testtask.views.Student.windows;
 
-import com.haulmont.testtask.views.Main.windows.ModalWindow;
+import com.haulmont.testtask.views.Student.StudentView;
+import com.haulmont.testtask.views.Student.forms.StudentForm;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.UI;
 
-public class AddStudentWindow extends ModalWindow {
+public class AddStudentWindow extends AddStudentWindowDesign {
+    private StudentView view;
+    private StudentForm form;
 
-    AddStudentWindowDesign content = new AddStudentWindowDesign();
+    public AddStudentWindow(StudentView view) {
+        this.view = view;
 
-    public AddStudentWindow(String caption) {
-        super(caption);
-        content.addOkButton.addClickListener(this::AddOkButtonClick);
-        content.addCancelButton.addClickListener
+        form = new StudentForm(this.view.getGroupsForSelect());
+        addComponentAsFirst(form);
+
+        addOkButton.addClickListener(this::AddOkButtonClick);
+        addCancelButton.addClickListener
                 (this::AddCancelButtonClick);
-        this.setContent(content);
+
+        this.view.getAddNewWindow().setContent(this);
+        UI.getCurrent().addWindow(this.view.getAddNewWindow());
     }
 
     private void AddOkButtonClick(Button.ClickEvent event){
-        this.close();
-
+        this.view.getAddNewWindow().close();
     }
 
     private void AddCancelButtonClick(Button.ClickEvent event){
-        this.close();
+        this.view.getAddNewWindow().close();
     }
 }

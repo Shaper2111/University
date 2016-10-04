@@ -1,29 +1,33 @@
 package com.haulmont.testtask.views.Student.windows;
 
-import com.haulmont.testtask.views.Main.windows.ModalWindow;
+import com.haulmont.testtask.views.Student.StudentView;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.UI;
 
-public class DeleteStudentWindow extends ModalWindow {
-    DeleteStudentWindowDesign content
-            = new DeleteStudentWindowDesign();
+public class DeleteStudentWindow extends DeleteStudentWindowDesign {
+    private StudentView view;
 
-    public DeleteStudentWindow(String caption, Object obj) {
-        super(caption);
-        content.label.setValue("Вы действительно хотите удалить " +
+    public DeleteStudentWindow(Object obj, StudentView view) {
+        this.view = view;
+
+        label.setValue("Вы действительно хотите удалить " +
                 "этот профиль?");
-        content.deleteOkButton.addClickListener
+
+        deleteOkButton.addClickListener
                 (this::DeleteOkButtonClick);
-        content.deleteCancelButton.addClickListener
+        deleteCancelButton.addClickListener
                 (this::DeleteCancelButtonClick);
-        setContent(content);
+
+        this.view.getDeleteWindow().setContent(this);
+        UI.getCurrent().addWindow(this.view.getDeleteWindow());
     }
 
     private void DeleteOkButtonClick(Button.ClickEvent event){
-        this.close();
+        this.view.getDeleteWindow().close();
 
     }
 
     private void DeleteCancelButtonClick(Button.ClickEvent event){
-        this.close();
+        this.view.getDeleteWindow().close();
     }
 }

@@ -1,5 +1,6 @@
 package com.haulmont.testtask.views.Student;
 
+import com.haulmont.testtask.views.Main.windows.ModalWindow;
 import com.haulmont.testtask.views.Student.windows.AddStudentWindow;
 import com.haulmont.testtask.views.Student.windows.DeleteStudentWindow;
 import com.haulmont.testtask.views.Student.windows.EditStudentWindow;
@@ -8,7 +9,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.UI;
+import com.vaadin.ui.Notification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,25 @@ public class StudentView extends StudentViewDesign
 
     private Grid grid;
 
+    private ModalWindow addNewWindow = new ModalWindow("Добавление " +
+            "профиля студента");
+
+    private ModalWindow editWindow = new ModalWindow
+            ("Редактирование профиля студента");
+
+    private ModalWindow deleteWindow = new ModalWindow("Удаление " +
+            "профиля студента");
+
+
+    public ModalWindow getAddNewWindow() {
+        return addNewWindow;
+    }
+
+    public ModalWindow getEditWindow() { return editWindow; }
+
+    public ModalWindow getDeleteWindow() {
+        return deleteWindow;
+    }
 
     @Override
     public void addListener(IStudentViewListener listener) {
@@ -45,24 +65,35 @@ public class StudentView extends StudentViewDesign
         addComponent(grid);
     }
 
+    public BeanItemContainer getGroupsForSelect(){
+        for (IStudentViewListener listener: listeners)
+            return listener.getGroupsForSelect();
+        return null;
+    }
+
     private void addNewClick(Button.ClickEvent event){
-        AddStudentWindow addNewWindow = new AddStudentWindow
-                ("Добавление профиля студента");
-        UI.getCurrent().addWindow(addNewWindow);
+        new AddStudentWindow(this);
     }
 
     private void editClick(Button.ClickEvent event){
         Item item = grid.getContainerDataSource().getItem(grid
                 .getSelectedRow());
-        EditStudentWindow editWindow = new EditStudentWindow
-                ("Редактирование профиля студента", item);
-        UI.getCurrent().addWindow(editWindow);
+        if (item == null) {
+            Notification.show("Не выбран профиль для редактирования" +
+                    ".");
+            return;
+        }
+
+        new EditStudentWindow(item, this);
     }
 
     private void deleteClick(Button.ClickEvent event){
-
-        DeleteStudentWindow deleteWindow = new DeleteStudentWindow
-                ("Удаление профиля студента", grid.getSelectedRow());
-        UI.getCurrent().addWindow(deleteWindow);
+        Object row = grid.getSelectedRow();
+        if (row == null) {
+            Notification.show("Не выбран профиль для удаления.");
+            return;
+        }
+        new DeleteStudentWindow(grid.getSelectedRow(), this);
     }
+
 }

@@ -2,6 +2,10 @@ package com.haulmont.testtask.models.db.exceptions;
 
 public class DaoException extends Exception {
 
+    public DaoException(String msg) {
+        super(msg);
+    }
+
     public DaoException(Exception e) {
         super(e);
     }

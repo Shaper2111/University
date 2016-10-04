@@ -1,5 +1,6 @@
 package com.haulmont.testtask.views.Student;
 
+import com.haulmont.testtask.models.Group.Group;
 import com.haulmont.testtask.models.Student.IStudentDao;
 import com.haulmont.testtask.models.Student.Student;
 import com.haulmont.testtask.models.db.Factory;
@@ -26,5 +27,18 @@ class StudentPresenter implements IStudentViewListener {
             e.printStackTrace();
         }
         view.generateGrid(container);
+    }
+
+    @Override
+    public BeanItemContainer getGroupsForSelect() {
+        BeanItemContainer<Group> container =
+                new BeanItemContainer<>(Group.class);
+        try {
+            for (Object o: dao.getGroupsForSelect())
+                container.addBean((Group) o);
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+        return container;
     }
 }
