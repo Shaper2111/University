@@ -1,22 +1,16 @@
 package com.haulmont.testtask.views.Group.forms;
 
 import com.haulmont.testtask.models.Group.Group;
+import com.haulmont.testtask.views.Main.forms.Form;
 import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
 
-public class GroupForm extends CustomComponent {
-
-    private FormLayout form;
-
-    private FieldGroup binder;
+public class GroupForm extends Form<Group> {
 
     private TextField id = new TextField("Идентификатор:");
 
@@ -24,70 +18,65 @@ public class GroupForm extends CustomComponent {
 
     private TextField department = new TextField("Факультет:");
 
-    public GroupForm(){
-        BeanItem<Group> item = new BeanItem<>(new Group());
+    public GroupForm() {
+        super();
+        generateFields();
+    }
 
-        binder = new FieldGroup(item);
+    public GroupForm(Item item) {
+        super(item);
+        generateFields();
+    }
+
+    private void generateFields(){
         binder.bindMemberFields(this);
-
-        generateForm();
-
-        setCompositionRoot(form);
+        generateId();
+        generateNumber();
+        generateDepartment();
     }
 
-    public GroupForm(Item item){
-
-        binder = new FieldGroup(item);
-        binder.bindMemberFields(this);
-
-        generateForm();
-
-        setCompositionRoot(form);
+    @Override
+    public BeanItem<Group> createItem() {
+        return new BeanItem<>(new Group());
     }
 
-    private void generateForm(){
-        form = new FormLayout();
-        form.setMargin(false);
-        form.setSizeUndefined();
-
-        validateId();
-        validateNumber();
-        validateDepartment();
-    }
-
-    private void validateId(){
+    private void generateId(){
         id.setNullRepresentation("");
         id.setReadOnly(true);
         form.addComponent(id);
     }
 
-    private void validateNumber(){
-        number.setRequired(true);
-        number.addValidator(new NullValidator("Это поле обязательно."
-                , false));
-        number.addValidator(new IntegerRangeValidator("Введите 4 " +
-                "цифры."
-                , 1, 9999));
+    private void generateNumber(){
+        number.addValidator(new NullValidator("Это поле обязательно",
+                false));
+        number.addValidator(new IntegerRangeValidator("Введите до 4" +
+                " цифр.", 1, 9999));
+        number.setConversionError("Введите только цифры.");
+        number.setValidationVisible(false);
         number.setImmediate(true);
         number.setNullRepresentation("");
         form.addComponent(number);
     }
 
-    private void validateDepartment(){
-        department.setRequired(true);
+    private void generateDepartment(){
+        department.addValidator(new NullValidator("Это поле " +
+                "обязательно", false));
         department.addValidator(new StringLengthValidator("Введите " +
                 "до 40 символов.", 1, 40, false));
+        department.setValidationVisible(false);
         department.setImmediate(true);
         department.setNullRepresentation("");
         form.addComponent(department);
     }
 
-    public Item commit(){
+    public BeanItem<Group> commit() {
         try {
             binder.commit();
-            return binder.getItemDataSource();
+            return getItem();
         } catch (FieldGroup.CommitException e) {
-            Notification.show("Ошибка коммита.");
+            number.setValidationVisible(true);
+            department.setValidationVisible(true);
+            Notification.show("Ошибка в заполнении данных.");
         }
         return null;
     }

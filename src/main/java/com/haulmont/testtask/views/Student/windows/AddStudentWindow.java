@@ -1,7 +1,9 @@
 package com.haulmont.testtask.views.Student.windows;
 
+import com.haulmont.testtask.views.Student.IStudentViewListener;
 import com.haulmont.testtask.views.Student.StudentView;
 import com.haulmont.testtask.views.Student.forms.StudentForm;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 
@@ -24,6 +26,11 @@ public class AddStudentWindow extends AddStudentWindowDesign {
     }
 
     private void AddOkButtonClick(Button.ClickEvent event){
+        BeanItem item = form.commit();
+        if (item == null)
+            return;
+        for (IStudentViewListener listener: view.getListeners())
+            listener.processData(item);
         this.view.getAddNewWindow().close();
     }
 

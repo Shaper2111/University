@@ -25,35 +25,45 @@ public class GroupDao extends GenericDao<Group, Long>
                 .getConnection().prepareStatement(sql)) {
             List<Group> list = new ArrayList<>();
             ResultSet rs = pres.executeQuery();
-            while (rs.next()) {
+            while (rs.next())
                 list.add(parseResult(rs));
-            }
             return list;
         } catch (DBException e) {
             throw new DaoException(e);
         } catch (SQLException e) {
-            throw new DaoException("Error while execute bulk get " +
-                    "SQL statement", e);
+            throw new DaoException("getAll SQL Error: ", e);
         }
     }
 
     @Override
-    public List<Group> getOnlyIdWithNumbers() throws DaoException {
-        String sql = "SELECT ID, NUMBER FROM GROUPS";
+    public List<Integer> getNumbers() throws DaoException {
+        String sql = "SELECT NUMBER FROM GROUPS";
         try (PreparedStatement pres = DBConnection.getInstance()
                 .getConnection().prepareStatement(sql)) {
-            List<Group> list = new ArrayList<>();
+            List<Integer> list = new ArrayList<>();
             ResultSet rs = pres.executeQuery();
             while (rs.next())
-                list.add(new Group(rs.getLong("Id"),
-                    rs.getInt("number"))
-                );
+                list.add(rs.getInt("number"));
             return list;
         } catch (DBException e) {
             throw new DaoException(e);
         } catch (SQLException e) {
-            throw new DaoException("Error while execute bulk get " +
-                    "SQL statement", e);
+            throw new DaoException("getOnlyIdWithNumbers SQL Error: ",
+                    e);
+        }
+    }
+
+    @Override
+    public Integer existsNumber(Integer number) throws DaoException {
+        String sql = "SELECT 1 FROM GROUPS WHERE ID = " + number;
+        try (PreparedStatement pres = DBConnection.getInstance()
+                .getConnection().prepareStatement(sql)) {
+            ResultSet rs = pres.executeQuery();
+            return rs.getInt(1);
+        } catch (DBException e) {
+            throw new DaoException(e);
+        } catch (SQLException e) {
+            throw new DaoException("existsNumber SQL Error: ", e);
         }
     }
 

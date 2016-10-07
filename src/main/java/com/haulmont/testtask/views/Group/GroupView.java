@@ -5,6 +5,7 @@ import com.haulmont.testtask.views.Group.windows.DeleteGroupWindow;
 import com.haulmont.testtask.views.Group.windows.EditGroupWindow;
 import com.haulmont.testtask.views.Main.windows.ModalWindow;
 import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
@@ -47,6 +48,11 @@ public class GroupView extends GroupViewDesign implements IGroupView {
     }
 
     @Override
+    public List<IGroupViewListener> getListeners() {
+        return listeners;
+    }
+
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         addListener(new GroupPresenter(this));
         addNewButton.addClickListener(this::addNewClick);
@@ -56,11 +62,27 @@ public class GroupView extends GroupViewDesign implements IGroupView {
     }
 
 
-    void generateGrid(BeanItemContainer container){
+    public void generateGrid(BeanItemContainer container){
         grid = new Grid(container);
         grid.setColumnOrder("id", "number", "department");
         grid.setSizeFull();
         this.addComponent(grid);
+    }
+
+    @Override
+    public void addElementToGrid(BeanItem item) {
+        grid.getContainerDataSource().addItem(item.getBean());
+    }
+
+    @Override
+    public void removeElementFromGrid(BeanItem item) {
+        grid.getContainerDataSource().removeItem(item.getBean());
+    }
+
+
+    @Override
+    public void createNotify(String message) {
+        Notification.show(message);
     }
 
 
@@ -88,7 +110,6 @@ public class GroupView extends GroupViewDesign implements IGroupView {
             Notification.show("Не выбрана группа для удаления.");
             return;
         }
-
         new DeleteGroupWindow(row, this);
     }
 

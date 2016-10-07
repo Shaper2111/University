@@ -1,11 +1,12 @@
 package com.haulmont.testtask.views.Student;
 
-import com.haulmont.testtask.models.Group.Group;
 import com.haulmont.testtask.models.Student.IStudentDao;
 import com.haulmont.testtask.models.Student.Student;
 import com.haulmont.testtask.models.db.Factory;
 import com.haulmont.testtask.models.db.exceptions.DaoException;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.IndexedContainer;
 
 class StudentPresenter implements IStudentViewListener {
     private IStudentDao dao;
@@ -24,21 +25,64 @@ class StudentPresenter implements IStudentViewListener {
             for (Object o: dao.getAll())
                 container.addBean((Student) o);
         } catch (DaoException e) {
-            e.printStackTrace();
+            view.createNotify("Ошибка: " + e.getMessage());
         }
         view.generateGrid(container);
     }
 
     @Override
-    public BeanItemContainer getGroupsForSelect() {
-        BeanItemContainer<Group> container =
-                new BeanItemContainer<>(Group.class);
+    public IndexedContainer getGroupsForSelect() {
         try {
-            for (Object o: dao.getGroupsForSelect())
-                container.addBean((Group) o);
+            return new IndexedContainer(dao.getGroupsForSelect());
         } catch (DaoException e) {
-            e.printStackTrace();
+            view.createNotify("Ошибка: " + e.getMessage());
         }
-        return container;
+        return null;
     }
+
+    @Override
+    public void processData(BeanItem<Student> item) {
+        Student student = item.getBean();
+        if (student.getId() == null) {
+            createData(student);
+        } else {
+            updateData(student);
+        }
+    }
+
+    @Override
+    public void processData(Student obj) {
+        try {
+            dao.delete(obj);
+        } catch (DaoException e) {
+            view.createNotify("Ошибка удаления: " + e.getMessage());
+            return;
+        }
+        BeanItem<Student> item = new BeanItem<>(obj);
+        view.removeElementFromGrid(item);
+        view.createNotify("Профиль успешно удалена.");
+    }
+
+    private void createData(Student student){
+        try {
+            student.setId((Long) dao.create(student));
+        } catch (DaoException e) {
+            view.createNotify("Ошибка: " + e.getMessage());
+            return;
+        }
+        BeanItem<Student> item = new BeanItem<>(student);
+        view.addElementToGrid(item);
+        view.createNotify("Профиль успешно добавлена.");
+    }
+
+    private void updateData(Student student){
+        try {
+            dao.update(student);
+        } catch (DaoException e) {
+            view.createNotify("Ошибка обновления: " + e.getMessage());
+            return;
+        }
+        view.createNotify("Профиль успешно обновлена.");
+    }
+
 }

@@ -11,6 +11,9 @@ public interface IGroupDao<PK extends Serializable>
 
     List<Group> getAll() throws DaoException;
 
-    List<Group> getOnlyIdWithNumbers() throws
+    List<Integer> getNumbers() throws
+            DaoException;
+
+    Integer existsNumber(Integer number) throws
             DaoException;
 }

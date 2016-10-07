@@ -1,6 +1,5 @@
 package com.haulmont.testtask.models.Student;
 
-import com.haulmont.testtask.models.Group.Group;
 import com.haulmont.testtask.models.db.DBConnection;
 import com.haulmont.testtask.models.db.Factory;
 import com.haulmont.testtask.models.db.GenericDao;
@@ -41,8 +40,8 @@ public class StudentDao extends GenericDao<Student, Long>
     }
 
     @Override
-    public List<Group> getGroupsForSelect() throws DaoException {
-        return Factory.getGroupDao().getOnlyIdWithNumbers();
+    public List getGroupsForSelect() throws DaoException {
+        return Factory.getGroupDao().getNumbers();
     }
 
     @Override

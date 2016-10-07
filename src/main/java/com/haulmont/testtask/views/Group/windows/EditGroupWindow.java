@@ -1,8 +1,10 @@
 package com.haulmont.testtask.views.Group.windows;
 
 import com.haulmont.testtask.views.Group.GroupView;
+import com.haulmont.testtask.views.Group.IGroupViewListener;
 import com.haulmont.testtask.views.Group.forms.GroupForm;
 import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 
@@ -26,7 +28,11 @@ public class EditGroupWindow extends EditGroupWindowDesign {
     }
 
     private void EditOkButtonClick(Button.ClickEvent event){
-        form.commit();
+        BeanItem item = form.commit();
+        if (item == null)
+            return;
+        for (IGroupViewListener listener: view.getListeners())
+            listener.processData(item);
         this.view.getEditWindow().close();
 
     }

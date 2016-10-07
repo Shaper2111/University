@@ -15,7 +15,7 @@ public interface IGenericDao<T extends Entity, PK extends Serializable> {
 
     T get(PK Id) throws DaoException;
 
-    void update(T object) throws DaoException;
+    boolean update(T object) throws DaoException;
 
     void delete(T object) throws DaoException;
 

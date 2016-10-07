@@ -5,7 +5,9 @@ import com.haulmont.testtask.views.Student.windows.AddStudentWindow;
 import com.haulmont.testtask.views.Student.windows.DeleteStudentWindow;
 import com.haulmont.testtask.views.Student.windows.EditStudentWindow;
 import com.vaadin.data.Item;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
@@ -49,6 +51,11 @@ public class StudentView extends StudentViewDesign
     }
 
     @Override
+    public List<IStudentViewListener> getListeners() {
+        return listeners;
+    }
+
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         addListener(new StudentPresenter(this));
         addNewButton.addClickListener(this::addNewClick);
@@ -57,7 +64,8 @@ public class StudentView extends StudentViewDesign
         listeners.forEach(IStudentViewListener::showData);
     }
 
-    void generateGrid(BeanItemContainer container){
+    @Override
+    public void generateGrid(BeanItemContainer container){
         grid = new Grid(container);
         grid.setColumnOrder("id", "firstName", "midName", "lastName",
                 "birthDate", "groupNumber");
@@ -65,7 +73,22 @@ public class StudentView extends StudentViewDesign
         addComponent(grid);
     }
 
-    public BeanItemContainer getGroupsForSelect(){
+    @Override
+    public void addElementToGrid(BeanItem item) {
+        grid.getContainerDataSource().addItem(item.getBean());
+    }
+
+    @Override
+    public void removeElementFromGrid(BeanItem item) {
+        grid.getContainerDataSource().removeItem(item.getBean());
+    }
+
+    @Override
+    public void createNotify(String message) {
+        Notification.show(message);
+    }
+
+    public IndexedContainer getGroupsForSelect(){
         for (IStudentViewListener listener: listeners)
             return listener.getGroupsForSelect();
         return null;
