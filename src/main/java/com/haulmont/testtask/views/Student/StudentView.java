@@ -12,8 +12,10 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class StudentView extends StudentViewDesign
@@ -65,12 +67,45 @@ public class StudentView extends StudentViewDesign
     }
 
     @Override
-    public void generateGrid(BeanItemContainer container){
-        grid = new Grid(container);
-        grid.setColumnOrder("id", "firstName", "midName", "lastName",
-                "birthDate", "groupNumber");
+    public void generateGrid(BeanItemContainer container,
+                             HashMap<String, String> columns){
+        grid = new Grid();
+        columns.forEach((id, name) -> {
+            Grid.Column col = grid.addColumn(id);
+            col.setHeaderCaption(name);
+        });
+        grid.setContainerDataSource(container);
         grid.setSizeFull();
         addComponent(grid);
+        generateFilter();
+    }
+
+    @Override
+    public void filterData(BeanItemContainer container) {
+        grid.setContainerDataSource(container);
+    }
+
+    private void generateFilter() {
+        Grid.FooterRow filterRow = grid.appendFooterRow();
+
+        Grid.FooterCell cell = filterRow.getCell("lastName");
+        TextField lastNameField = new TextField();
+        cell.setComponent(lastNameField);
+
+        cell = filterRow.getCell("groupNumber");
+        TextField groupNumberField = new TextField();
+        groupNumberField.setNullRepresentation("");
+        groupNumberField.setConverter(Integer.class);
+        cell.setComponent(groupNumberField);
+
+        Button button = new Button("Применить", event -> {
+            for (IStudentViewListener listener: listeners)
+                listener.filterData(lastNameField.getValue(),
+                        (Integer) groupNumberField.getConvertedValue());
+        });
+
+        cell = filterRow.getCell("id");
+        cell.setComponent(button);
     }
 
     @Override

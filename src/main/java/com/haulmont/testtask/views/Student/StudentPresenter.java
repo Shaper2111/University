@@ -8,6 +8,9 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.IndexedContainer;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 class StudentPresenter implements IStudentViewListener {
     private IStudentDao dao;
 
@@ -27,7 +30,29 @@ class StudentPresenter implements IStudentViewListener {
         } catch (DaoException e) {
             view.createNotify("Ошибка: " + e.getMessage());
         }
-        view.generateGrid(container);
+        HashMap<String, String> columns = new LinkedHashMap<>();
+
+        columns.put("id", "Идентификатор");
+        columns.put("firstName", "Имя");
+        columns.put("midName", "Отчество");
+        columns.put("lastName", "Фамилия");
+        columns.put("birthDate", "Дата рождения");
+        columns.put("groupNumber", "Номер группы");
+
+        view.generateGrid(container, columns);
+    }
+
+    @Override
+    public void filterData(String lastName, Integer groupNumber) {
+        BeanItemContainer<Student> container =
+                new BeanItemContainer<>(Student.class);
+        try {
+            for (Object o: dao.getStudentsBy(lastName, groupNumber))
+                container.addBean((Student) o);
+        } catch (DaoException e) {
+            view.createNotify("Ошибка: " + e.getMessage());
+        }
+        view.filterData(container);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.haulmont.testtask.models.Student;
 
-import com.haulmont.testtask.models.Group.Group;
 import com.haulmont.testtask.models.db.IGenericDao;
 import com.haulmont.testtask.models.db.exceptions.DaoException;
 
@@ -13,5 +12,8 @@ public interface IStudentDao<PK extends Serializable> extends
 
     List<Student> getAll() throws DaoException;
 
-    List<Group> getGroupsForSelect() throws DaoException;
+    List getGroupsForSelect() throws DaoException;
+
+    List<Student> getStudentsBy(String lastName, Integer groupNumber)
+            throws DaoException;
 }

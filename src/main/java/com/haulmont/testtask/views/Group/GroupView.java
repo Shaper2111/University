@@ -13,6 +13,7 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GroupView extends GroupViewDesign implements IGroupView {
@@ -62,9 +63,14 @@ public class GroupView extends GroupViewDesign implements IGroupView {
     }
 
 
-    public void generateGrid(BeanItemContainer container){
-        grid = new Grid(container);
-        grid.setColumnOrder("id", "number", "department");
+    public void generateGrid(BeanItemContainer container,
+                             HashMap<String, String> columns){
+        grid = new Grid();
+        columns.forEach((id, name) -> {
+            Grid.Column col = grid.addColumn(id);
+            col.setHeaderCaption(name);
+        });
+        grid.setContainerDataSource(container);
         grid.setSizeFull();
         this.addComponent(grid);
     }

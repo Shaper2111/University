@@ -34,14 +34,42 @@ public class StudentDao extends GenericDao<Student, Long>
         } catch (DBException e) {
             throw new DaoException(e);
         } catch (SQLException e) {
-            throw new DaoException("Error while execute bulk get " +
-                    "SQL statement", e);
+            throw new DaoException("getAll SQL Error", e);
         }
     }
 
     @Override
     public List getGroupsForSelect() throws DaoException {
         return Factory.getGroupDao().getNumbers();
+    }
+
+    @Override
+    public List<Student> getStudentsBy(String lastName,
+                                       Integer groupNumber)
+            throws DaoException {
+        String sql = "SELECT * FROM STUDENTS";
+
+        boolean isLastName = !lastName.isEmpty();
+        if (isLastName) sql += " WHERE LASTNAME = '" + lastName + "'";
+        if (groupNumber != null) {
+            sql += isLastName ? " AND " : " WHERE ";
+            sql += "GROUPNUMBER = " + groupNumber;
+        }
+
+        try (PreparedStatement pres = DBConnection.getInstance()
+                .getConnection().prepareStatement(sql)) {
+            ResultSet rs = pres.executeQuery();
+            List<Student> list = new ArrayList<>();
+            while (rs.next()) {
+                list.add(parseResult(rs));
+            }
+            return list;
+        } catch (DBException e) {
+            throw new DaoException(e);
+        } catch (SQLException e) {
+            throw new DaoException("getStudentsByLastName SQL Error",
+                    e);
+        }
     }
 
     @Override

@@ -7,6 +7,9 @@ import com.haulmont.testtask.models.db.exceptions.DaoException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 
 class GroupPresenter implements IGroupViewListener {
     private IGroupDao dao;
@@ -26,7 +29,13 @@ class GroupPresenter implements IGroupViewListener {
         } catch (DaoException e) {
             e.printStackTrace();
         }
-        view.generateGrid(container);
+        HashMap<String, String> columns = new LinkedHashMap<>();
+
+        columns.put("id", "Идентификатор");
+        columns.put("number", "Номер группы");
+        columns.put("department", "Факультет");
+
+        view.generateGrid(container, columns);
     }
 
     @Override
