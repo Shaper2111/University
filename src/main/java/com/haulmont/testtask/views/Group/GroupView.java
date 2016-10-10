@@ -72,7 +72,7 @@ public class GroupView extends GroupViewDesign implements IGroupView {
         });
         grid.setContainerDataSource(container);
         grid.setSizeFull();
-        this.addComponent(grid);
+        groupContent.addComponent(grid);
     }
 
     @Override

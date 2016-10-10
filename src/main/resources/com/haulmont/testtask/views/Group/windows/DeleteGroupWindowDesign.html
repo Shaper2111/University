@@ -9,11 +9,12 @@
    <vaadin-label size-auto plain-text _id="label">
      Label 
    </vaadin-label> 
-   <vaadin-horizontal-layout :bottom :right> 
-    <vaadin-native-button plain-text _id="deleteOkButton">
+   <vaadin-vertical-split-panel height-auto></vaadin-vertical-split-panel> 
+   <vaadin-horizontal-layout spacing :right> 
+    <vaadin-native-button style-name="OkButton" plain-text _id="deleteOkButton">
       ОК 
     </vaadin-native-button> 
-    <vaadin-native-button plain-text _id="deleteCancelButton">
+    <vaadin-native-button style-name="CancelButton" plain-text _id="deleteCancelButton">
       Отменить 
     </vaadin-native-button> 
    </vaadin-horizontal-layout> 

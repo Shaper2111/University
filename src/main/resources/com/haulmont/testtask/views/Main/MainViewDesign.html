@@ -6,9 +6,9 @@
  </head> 
  <body> 
   <vaadin-vertical-layout style-name="root-layout navigation-template-vaadin" responsive size-full> 
-   <vaadin-horizontal-layout style-name="main-area-layout" size-full _id="main_area" :expand> 
-    <vaadin-css-layout style-name="side-bar" height-full _id="side_bar"> 
-     <vaadin-vertical-layout spacing margin-top _id="header_bar"> 
+   <vaadin-horizontal-layout style-name="main-area-layout" size-full _id="mainArea" :expand> 
+    <vaadin-css-layout style-name="side-bar" height-full _id="sideBar"> 
+     <vaadin-vertical-layout spacing margin-top _id="headerBar"> 
       <vaadin-label icon="fonticon://FontAwesome/f19c" caption="Университет" width="0px" height="0px" plain-text :middle :center></vaadin-label> 
      </vaadin-vertical-layout> 
      <vaadin-native-button icon="fonticon://FontAwesome/f0c0" style-name="menu-button" width-full plain-text _id="menuButton1">
@@ -18,7 +18,7 @@
        Студенты 
      </vaadin-native-button> 
     </vaadin-css-layout> 
-    <vaadin-panel style-name="scroll-panel" size-full _id="scroll_panel" :expand></vaadin-panel> 
+    <vaadin-panel style-name="scroll-panel" size-full _id="scrollPanel" :expand></vaadin-panel> 
    </vaadin-horizontal-layout> 
   </vaadin-vertical-layout>  
  </body>

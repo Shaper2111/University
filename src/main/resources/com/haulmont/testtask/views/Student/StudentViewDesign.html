@@ -7,23 +7,24 @@
  </head> 
  <body> 
   <vaadin-vertical-layout> 
-   <vaadin-horizontal-layout width-full margin-left margin-right margin-top> 
-    <vaadin-label size-auto plain-text>
+   <vaadin-horizontal-layout style-name="student-menu" width-full margin-left margin-right margin-top> 
+    <vaadin-label style-name="student-label" size-auto plain-text>
       Студенты 
     </vaadin-label> 
-    <vaadin-horizontal-layout :middle :right> 
-     <vaadin-native-button plain-text _id="addNewButton">
+    <vaadin-horizontal-layout spacing :middle :right> 
+     <vaadin-native-button style-name="addButton" plain-text _id="addNewButton">
        Добавить 
      </vaadin-native-button> 
-     <vaadin-native-button plain-text _id="editButton">
+     <vaadin-native-button style-name="editButton" plain-text _id="editButton">
        Изменить 
      </vaadin-native-button> 
-     <vaadin-native-button plain-text _id="deleteButton">
+     <vaadin-native-button style-name="deleteButton" plain-text _id="deleteButton">
        Удалить 
      </vaadin-native-button> 
     </vaadin-horizontal-layout> 
    </vaadin-horizontal-layout> 
-   <vaadin-vertical-split-panel height-auto></vaadin-vertical-split-panel> 
+   <vaadin-vertical-split-panel style-name="student-splitter" height-auto></vaadin-vertical-split-panel> 
+   <vaadin-vertical-layout style-name="student-content" size-full _id="studentContent"></vaadin-vertical-layout> 
   </vaadin-vertical-layout>  
  </body>
 </html>

@@ -25,6 +25,8 @@ public class GroupViewDesign extends VerticalLayout {
 
     protected NativeButton deleteButton;
 
+    protected VerticalLayout groupContent;
+
     public GroupViewDesign() {
         Design.read(this);
     }

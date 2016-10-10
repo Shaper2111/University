@@ -25,6 +25,8 @@ public class StudentViewDesign extends VerticalLayout {
 
     protected NativeButton deleteButton;
 
+    protected VerticalLayout studentContent;
+
     public StudentViewDesign() {
         Design.read(this);
     }

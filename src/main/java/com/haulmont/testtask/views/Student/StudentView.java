@@ -76,7 +76,7 @@ public class StudentView extends StudentViewDesign
         });
         grid.setContainerDataSource(container);
         grid.setSizeFull();
-        addComponent(grid);
+        studentContent.addComponent(grid);
         generateFilter();
     }
 

@@ -1,0 +1,74 @@
+@import "../valo/valo.scss";
+
+@mixin university {
+  @include valo;
+
+  .side-bar {
+    background-color: aliceblue;
+    //border-right: solid 2px steelblue;
+    .v-caption-header-label {
+      font-size: 20px;
+    }
+    .v-verticallayout {
+      color: white;
+      background-color: slateblue;
+      //border-bottom: solid 2px steelblue;
+      margin-bottom: 10px;
+    }
+  }
+  .v-nativebutton {
+    color: white;
+    background-color: slateblue;
+    border: none;
+    border-radius: 5px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+  }
+  .menu-button {
+    text-align: left;
+    color: steelblue;
+    background-color: transparent;
+    border-radius: 0;
+    border: none;
+  }
+  .menu-button:hover {
+    background-color: slateblue;
+    color: white;
+  }
+  .scroll-panel {
+    background-color: aliceblue;
+  }
+  .v-grid-row-selected {
+    .v-grid-cell {
+      background-image: -webkit-linear-gradient(top, #6a8ccd 2%, #6A5ACD 98%)
+    }
+  }
+  .addButton:hover {
+    color: white;
+    background-color: royalblue;
+  }
+  .editButton:hover {
+    color: white;
+    background-color: forestgreen;
+  }
+  .deleteButton:hover {
+    color: white;
+    background-color: darkred;
+  }
+  .v-window-outerheader {
+    margin-right: 0;
+    background-color: slateblue;
+    .v-window-header {
+      color: white;
+    }
+  }
+
+  .OkButton:hover {
+    color: white;
+    background-color: royalblue;
+  }
+  .CancelButton:hover {
+    color: white;
+    background-color: darkred;
+  }
+}

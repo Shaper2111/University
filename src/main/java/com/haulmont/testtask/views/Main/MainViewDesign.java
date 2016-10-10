@@ -22,17 +22,17 @@ import com.vaadin.ui.Panel;
 @SuppressWarnings("serial")
 public class MainViewDesign extends VerticalLayout {
 
-    protected HorizontalLayout main_area;
+    protected HorizontalLayout mainArea;
 
-    protected CssLayout side_bar;
+    protected CssLayout sideBar;
 
-    protected VerticalLayout header_bar;
+    protected VerticalLayout headerBar;
 
     protected NativeButton menuButton1;
 
     protected NativeButton menuButton2;
 
-    protected Panel scroll_panel;
+    protected Panel scrollPanel;
 
     public MainViewDesign() {
         Design.read(this);

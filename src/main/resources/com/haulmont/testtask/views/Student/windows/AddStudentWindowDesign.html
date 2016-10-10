@@ -7,11 +7,12 @@
  </head> 
  <body> 
   <vaadin-vertical-layout size-auto margin> 
-   <vaadin-horizontal-layout :bottom :right> 
-    <vaadin-native-button plain-text _id="addOkButton">
+   <vaadin-vertical-split-panel height-auto></vaadin-vertical-split-panel> 
+   <vaadin-horizontal-layout spacing :right> 
+    <vaadin-native-button style-name="OkButton" plain-text _id="addOkButton">
       Ок 
     </vaadin-native-button> 
-    <vaadin-native-button plain-text _id="addCancelButton">
+    <vaadin-native-button style-name="CancelButton" plain-text _id="addCancelButton">
       Отменить 
     </vaadin-native-button> 
    </vaadin-horizontal-layout> 

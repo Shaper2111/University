@@ -40,7 +40,7 @@ public class MainView extends MainViewDesign  implements ViewDisplay {
     @Override
     public void showView(View view) {
         if (view instanceof Component) {
-            scroll_panel.setContent((Component) view);
+            scrollPanel.setContent((Component) view);
         } else {
             throw new IllegalArgumentException("View is not a " +
                     "Component");
