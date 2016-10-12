@@ -8,15 +8,15 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.IntegerRangeValidator;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.ui.*;
+import com.vaadin.ui.TextField;
 
 public class GroupForm extends Form<Group> {
 
-    private TextField id = new TextField("Идентификатор:");
+    private final TextField id = new TextField("Идентификатор:");
 
-    private TextField number = new TextField("Номер группы:");
+    private final TextField number = new TextField("Номер группы:");
 
-    private TextField department = new TextField("Факультет:");
+    private final TextField department = new TextField("Факультет:");
 
     public GroupForm() {
         super();
@@ -76,7 +76,6 @@ public class GroupForm extends Form<Group> {
         } catch (FieldGroup.CommitException e) {
             number.setValidationVisible(true);
             department.setValidationVisible(true);
-            Notification.show("Ошибка в заполнении данных.");
         }
         return null;
     }

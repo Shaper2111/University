@@ -1,6 +1,9 @@
 package com.haulmont.testtask.views.Student;
 
-import com.haulmont.testtask.views.Main.windows.ModalWindow;
+import com.haulmont.testtask.views.Main.AbstractView;
+import com.haulmont.testtask.views.Student.forms.StudentFilterForm;
+import com.haulmont.testtask.views.Student.presenters.IStudentViewListener;
+import com.haulmont.testtask.views.Student.presenters.StudentPresenter;
 import com.haulmont.testtask.views.Student.windows.AddStudentWindow;
 import com.haulmont.testtask.views.Student.windows.DeleteStudentWindow;
 import com.haulmont.testtask.views.Student.windows.EditStudentWindow;
@@ -10,59 +13,40 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class StudentView extends StudentViewDesign
-        implements IStudentView {
+public class StudentView extends AbstractView<IStudentViewListener>
+        implements IStudentView<IStudentViewListener> {
 
     public static final String VIEW_NAME = "students";
 
-    private List<IStudentViewListener> listeners = new ArrayList<>();
+    private IndexedContainer groups = new IndexedContainer();
+
+    private final StudentViewDesign design = new StudentViewDesign();
 
     private Grid grid;
 
-    private ModalWindow addNewWindow = new ModalWindow("Добавление " +
-            "профиля студента");
-
-    private ModalWindow editWindow = new ModalWindow
-            ("Редактирование профиля студента");
-
-    private ModalWindow deleteWindow = new ModalWindow("Удаление " +
-            "профиля студента");
-
-
-    public ModalWindow getAddNewWindow() {
-        return addNewWindow;
-    }
-
-    public ModalWindow getEditWindow() { return editWindow; }
-
-    public ModalWindow getDeleteWindow() {
-        return deleteWindow;
-    }
-
     @Override
-    public void addListener(IStudentViewListener listener) {
-        listeners.add(listener);
+    public Component getDesign() {
+        return design;
     }
 
-    @Override
-    public List<IStudentViewListener> getListeners() {
-        return listeners;
+    public void setGroups(IndexedContainer groups) {
+        this.groups = groups;
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         addListener(new StudentPresenter(this));
-        addNewButton.addClickListener(this::addNewClick);
-        editButton.addClickListener(this::editClick);
-        deleteButton.addClickListener(this::deleteClick);
+        addComponent(design);
+        design.addNewButton.addClickListener((Button.ClickListener) (event3) -> addNewClick());
+        design.editButton.addClickListener((Button.ClickListener) (event2) -> editClick());
+        design.deleteButton.addClickListener((Button.ClickListener) (event1) -> deleteClick());
+
         listeners.forEach(IStudentViewListener::showData);
     }
 
@@ -76,36 +60,20 @@ public class StudentView extends StudentViewDesign
         });
         grid.setContainerDataSource(container);
         grid.setSizeFull();
-        studentContent.addComponent(grid);
-        generateFilter();
+        design.studentContent.addComponent(grid);
+        createFilter();
+    }
+
+    private void createFilter() {
+        new StudentFilterForm(grid, (res1, res2) -> {
+            for (IStudentViewListener listener : listeners)
+                listener.filterData(res1, res2);
+        });
     }
 
     @Override
     public void filterData(BeanItemContainer container) {
         grid.setContainerDataSource(container);
-    }
-
-    private void generateFilter() {
-        Grid.FooterRow filterRow = grid.appendFooterRow();
-
-        Grid.FooterCell cell = filterRow.getCell("lastName");
-        TextField lastNameField = new TextField();
-        cell.setComponent(lastNameField);
-
-        cell = filterRow.getCell("groupNumber");
-        TextField groupNumberField = new TextField();
-        groupNumberField.setNullRepresentation("");
-        groupNumberField.setConverter(Integer.class);
-        cell.setComponent(groupNumberField);
-
-        Button button = new Button("Применить", event -> {
-            for (IStudentViewListener listener: listeners)
-                listener.filterData(lastNameField.getValue(),
-                        (Integer) groupNumberField.getConvertedValue());
-        });
-
-        cell = filterRow.getCell("id");
-        cell.setComponent(button);
     }
 
     @Override
@@ -118,40 +86,36 @@ public class StudentView extends StudentViewDesign
         grid.getContainerDataSource().removeItem(item.getBean());
     }
 
-    @Override
-    public void createNotify(String message) {
-        Notification.show(message);
+    private void addNewClick(){
+        new AddStudentWindow(groups, res -> {
+            for (IStudentViewListener listener : listeners)
+                listener.createData(res);
+        });
     }
 
-    public IndexedContainer getGroupsForSelect(){
-        for (IStudentViewListener listener: listeners)
-            return listener.getGroupsForSelect();
-        return null;
-    }
-
-    private void addNewClick(Button.ClickEvent event){
-        new AddStudentWindow(this);
-    }
-
-    private void editClick(Button.ClickEvent event){
+    private void editClick(){
         Item item = grid.getContainerDataSource().getItem(grid
                 .getSelectedRow());
         if (item == null) {
-            Notification.show("Не выбран профиль для редактирования" +
-                    ".");
+            createNotify("Не выбран профиль для редактирования.");
             return;
         }
 
-        new EditStudentWindow(item, this);
+        new EditStudentWindow(item, groups,
+            res -> {for (IStudentViewListener listener : listeners)
+                    listener.updateData(res);
+        });
     }
 
-    private void deleteClick(Button.ClickEvent event){
+    private void deleteClick(){
         Object row = grid.getSelectedRow();
         if (row == null) {
             Notification.show("Не выбран профиль для удаления.");
             return;
         }
-        new DeleteStudentWindow(grid.getSelectedRow(), this);
+        new DeleteStudentWindow(row, res -> {
+                for (IStudentViewListener listener : listeners)
+                    listener.deleteData(res);
+        });
     }
-
 }

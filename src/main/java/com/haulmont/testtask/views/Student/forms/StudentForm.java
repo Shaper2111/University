@@ -8,41 +8,43 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.ui.*;
+import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.TextField;
 
 
 
 public class StudentForm extends Form<Student> {
 
-    private TextField id = new TextField("Идентификатор:");
+    private final TextField id = new TextField("Идентификатор:");
 
-    private TextField firstName = new TextField("Имя:");
+    private final TextField firstName = new TextField("Имя:");
 
-    private TextField midName = new TextField("Отчество:");
+    private final TextField midName = new TextField("Отчество:");
 
-    private TextField lastName = new TextField("Фамилия:");
+    private final TextField lastName = new TextField("Фамилия:");
 
-    private DateField birthDate = new DateField("Дата рождения:");
+    private final DateField birthDate = new DateField("Дата рождения:");
 
-    private ComboBox groupNumber = new ComboBox("Номер группы:");
+    private final ComboBox groupNumber = new ComboBox("Номер группы:");
 
     public StudentForm(IndexedContainer groups){
         super();
-        validateFields(groups);
+        generateFields(groups);
     }
 
     public StudentForm(Item item, IndexedContainer groups){
         super(item);
-        validateFields(groups);
+        generateFields(groups);
     }
 
-    private void validateId() {
+    private void generateId() {
         id.setNullRepresentation("");
         id.setReadOnly(true);
         form.addComponent(id);
     }
 
-    private void validateFirstName(){
+    private void generateFirstName(){
         firstName.addValidator(new NullValidator("Это поле " +
                 "обязательно", false));
         firstName.addValidator(new StringLengthValidator("Введите " +
@@ -53,7 +55,7 @@ public class StudentForm extends Form<Student> {
         form.addComponent(firstName);
     }
 
-    private void validateMidName(){
+    private void generateMidName(){
         midName.addValidator(new NullValidator("Это поле " +
                 "обязательно", false));
         midName.addValidator(new StringLengthValidator("Введите " +
@@ -64,7 +66,7 @@ public class StudentForm extends Form<Student> {
         form.addComponent(midName);
     }
 
-    private void validateLastName(){
+    private void generateLastName(){
         lastName.addValidator(new NullValidator("Это поле " +
                 "обязательно", false));
         lastName.addValidator(new StringLengthValidator("Введите " +
@@ -75,7 +77,7 @@ public class StudentForm extends Form<Student> {
         form.addComponent(lastName);
     }
 
-    private void validateBirthDate(){
+    private void generateBirthDate(){
         birthDate.addValidator(new NullValidator("Это поле " +
                 "обязательно", false));
         birthDate.setImmediate(true);
@@ -83,7 +85,7 @@ public class StudentForm extends Form<Student> {
         form.addComponent(birthDate);
     }
 
-    private void validateGroupNumber(IndexedContainer groups) {
+    private void generateGroupNumber(IndexedContainer groups) {
         groupNumber.addValidator(new NullValidator
                 ("Это поле обязательно.", false));
         groupNumber.setNullSelectionAllowed(false);
@@ -94,14 +96,14 @@ public class StudentForm extends Form<Student> {
         form.addComponent(groupNumber);
     }
 
-    private void validateFields(IndexedContainer groups){
+    private void generateFields(IndexedContainer groups){
         binder.bindMemberFields(this);
-        validateId();
-        validateFirstName();
-        validateMidName();
-        validateLastName();
-        validateBirthDate();
-        validateGroupNumber(groups);
+        generateId();
+        generateFirstName();
+        generateMidName();
+        generateLastName();
+        generateBirthDate();
+        generateGroupNumber(groups);
     }
 
     @Override
@@ -120,7 +122,6 @@ public class StudentForm extends Form<Student> {
             lastName.setValidationVisible(true);
             birthDate.setValidationVisible(true);
             groupNumber.setValidationVisible(true);
-            Notification.show("Ошибка в заполнении данных.");
         }
         return null;
     }

@@ -12,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroupDao extends GenericDao<Group, Long>
-        implements IGroupDao<Long> {
+        implements IGroupDao<Group> {
 
-    public GroupDao() {
-        super(Long.class);
+    @Override
+    public Class<Long> getPkClass() {
+        return Long.class;
     }
 
     @Override

@@ -1,64 +1,41 @@
 package com.haulmont.testtask.views.Group;
 
+import com.haulmont.testtask.views.Group.presenters.GroupPresenter;
+import com.haulmont.testtask.views.Group.presenters.IGroupViewListener;
 import com.haulmont.testtask.views.Group.windows.AddGroupWindow;
 import com.haulmont.testtask.views.Group.windows.DeleteGroupWindow;
 import com.haulmont.testtask.views.Group.windows.EditGroupWindow;
-import com.haulmont.testtask.views.Main.windows.ModalWindow;
+import com.haulmont.testtask.views.Main.AbstractView;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.Notification;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class GroupView extends GroupViewDesign implements IGroupView {
+public class GroupView extends AbstractView<IGroupViewListener>
+        implements IGroupView<IGroupViewListener> {
 
     public static final String VIEW_NAME = "groups";
 
-    private List<IGroupViewListener> listeners = new ArrayList<>();
+    private final GroupViewDesign design = new GroupViewDesign();
 
     private Grid grid;
 
-    private ModalWindow addNewWindow = new ModalWindow("Добавление группы");
-
-    private ModalWindow editWindow = new ModalWindow("Редактирование группы");
-
-    private ModalWindow deleteWindow = new ModalWindow("Удаление группы");
-
-
-    public ModalWindow getAddNewWindow() {
-        return addNewWindow;
-    }
-
-    public ModalWindow getEditWindow() {
-        return editWindow;
-    }
-
-    public ModalWindow getDeleteWindow() {
-        return deleteWindow;
-    }
-
     @Override
-    public void addListener(IGroupViewListener listener) {
-        listeners.add(listener);
-    }
-
-    @Override
-    public List<IGroupViewListener> getListeners() {
-        return listeners;
+    public GroupViewDesign getDesign() {
+        return design;
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         addListener(new GroupPresenter(this));
-        addNewButton.addClickListener(this::addNewClick);
-        editButton.addClickListener(this::editClick);
-        deleteButton.addClickListener(this::deleteClick);
+        addComponent(design);
+        design.addNewButton.addClickListener((Button.ClickListener) (event3) -> addNewClick());
+        design.editButton.addClickListener((Button.ClickListener) (event2) -> editClick());
+        design.deleteButton.addClickListener((Button.ClickListener) (event1) -> deleteClick());
         listeners.forEach(IGroupViewListener::showData);
     }
 
@@ -72,7 +49,7 @@ public class GroupView extends GroupViewDesign implements IGroupView {
         });
         grid.setContainerDataSource(container);
         grid.setSizeFull();
-        groupContent.addComponent(grid);
+        design.groupContent.addComponent(grid);
     }
 
     @Override
@@ -86,37 +63,38 @@ public class GroupView extends GroupViewDesign implements IGroupView {
     }
 
 
-    @Override
-    public void createNotify(String message) {
-        Notification.show(message);
+    private void addNewClick(){
+        new AddGroupWindow(res -> {
+            for (IGroupViewListener listener : listeners)
+                listener.createData(res);
+        });
     }
 
-
-    private void addNewClick(Button.ClickEvent event){
-        new AddGroupWindow(this);
-    }
-
-    private void editClick(Button.ClickEvent event){
+    private void editClick(){
         Item item = grid.getContainerDataSource().getItem(grid
                 .getSelectedRow());
 
         if (item == null) {
-            Notification.show("Не выбрана группа для редактирования" +
-                    ".");
+            createNotify("Не выбрана группа для редактирования.");
             return;
         }
 
-        new EditGroupWindow(item, this);
+        new EditGroupWindow(item, res -> {
+            for (IGroupViewListener listener : listeners)
+                listener.updateData(res);
+        });
     }
 
-    private void deleteClick(Button.ClickEvent event){
+    private void deleteClick(){
         Object row = grid.getSelectedRow();
 
         if (row == null) {
-            Notification.show("Не выбрана группа для удаления.");
+            createNotify("Не выбрана группа для удаления.");
             return;
         }
-        new DeleteGroupWindow(row, this);
+        new DeleteGroupWindow(row, res -> {
+            for (IGroupViewListener listener : listeners)
+                listener.deleteData(res);
+        });
     }
-
 }

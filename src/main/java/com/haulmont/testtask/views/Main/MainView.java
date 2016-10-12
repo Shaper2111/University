@@ -11,7 +11,7 @@ import com.vaadin.ui.UI;
 
 public class MainView extends MainViewDesign  implements ViewDisplay {
 
-    private Navigator navigator;
+    private final Navigator navigator;
 
     public MainView() {
         navigator = new Navigator(UI.getCurrent(),
@@ -39,11 +39,6 @@ public class MainView extends MainViewDesign  implements ViewDisplay {
 
     @Override
     public void showView(View view) {
-        if (view instanceof Component) {
-            scrollPanel.setContent((Component) view);
-        } else {
-            throw new IllegalArgumentException("View is not a " +
-                    "Component");
-        }
+        scrollPanel.setContent((Component) view);
     }
 }

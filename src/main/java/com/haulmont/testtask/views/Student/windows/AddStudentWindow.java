@@ -1,40 +1,38 @@
 package com.haulmont.testtask.views.Student.windows;
 
-import com.haulmont.testtask.views.Student.IStudentViewListener;
-import com.haulmont.testtask.views.Student.StudentView;
+import com.haulmont.testtask.models.Student.Student;
+import com.haulmont.testtask.views.Main.windows.ModalWindow;
 import com.haulmont.testtask.views.Student.forms.StudentForm;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.UI;
+import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.ui.Notification;
 
-public class AddStudentWindow extends AddStudentWindowDesign {
-    private StudentView view;
-    private StudentForm form;
+import java.util.function.Consumer;
 
-    public AddStudentWindow(StudentView view) {
-        this.view = view;
+public class AddStudentWindow extends ModalWindow {
 
-        form = new StudentForm(this.view.getGroupsForSelect());
-        addComponentAsFirst(form);
+    private final StudentForm form;
 
-        addOkButton.addClickListener(this::AddOkButtonClick);
-        addCancelButton.addClickListener
-                (this::AddCancelButtonClick);
+    private final Consumer<BeanItem<Student>> cons;
 
-        this.view.getAddNewWindow().setContent(this);
-        UI.getCurrent().addWindow(this.view.getAddNewWindow());
+    public AddStudentWindow(IndexedContainer groups,
+                            Consumer<BeanItem<Student>> cons) {
+        super("Добавление профиля");
+        this.cons = cons;
+
+        form = new StudentForm(groups);
+        design.addComponentAsFirst(form);
+        setWindow();
     }
 
-    private void AddOkButtonClick(Button.ClickEvent event){
-        BeanItem item = form.commit();
-        if (item == null)
+    @Override
+    protected void OkButtonClick() {
+        BeanItem<Student> item = form.commit();
+        if (item == null){
+            Notification.show("Ошибка в заполнении данных.");
             return;
-        for (IStudentViewListener listener: view.getListeners())
-            listener.processData(item);
-        this.view.getAddNewWindow().close();
-    }
-
-    private void AddCancelButtonClick(Button.ClickEvent event){
-        this.view.getAddNewWindow().close();
+        }
+        cons.accept(item);
+        close();
     }
 }

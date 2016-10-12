@@ -14,10 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDao extends GenericDao<Student, Long>
-        implements IStudentDao<Long> {
+        implements IStudentDao<Student> {
 
-    public StudentDao() {
-        super(Long.class);
+    @Override
+    public Class<Long> getPkClass() {
+        return Long.class;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class StudentDao extends GenericDao<Student, Long>
 
     @Override
     public List<Student> getStudentsBy(String lastName,
-                                       Integer groupNumber)
+                                       Object groupNumber)
             throws DaoException {
         String sql = "SELECT * FROM STUDENTS";
 

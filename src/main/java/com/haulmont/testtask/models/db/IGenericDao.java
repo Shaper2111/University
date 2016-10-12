@@ -11,13 +11,15 @@ import java.sql.SQLException;
 
 public interface IGenericDao<T extends Entity, PK extends Serializable> {
 
+    Class<PK> getPkClass();
+
     PK create(T obj) throws DaoException;
 
     T get(PK Id) throws DaoException;
 
     boolean update(T object) throws DaoException;
 
-    void delete(T object) throws DaoException;
+    void delete(PK Id) throws DaoException;
 
     String getQuerySQL();
 

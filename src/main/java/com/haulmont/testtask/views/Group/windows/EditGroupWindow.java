@@ -1,43 +1,38 @@
 package com.haulmont.testtask.views.Group.windows;
 
-import com.haulmont.testtask.views.Group.GroupView;
-import com.haulmont.testtask.views.Group.IGroupViewListener;
+import com.haulmont.testtask.models.Group.Group;
 import com.haulmont.testtask.views.Group.forms.GroupForm;
+import com.haulmont.testtask.views.Main.windows.ModalWindow;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.UI;
+import com.vaadin.ui.Notification;
 
-public class EditGroupWindow extends EditGroupWindowDesign {
-    private GroupView view;
-    private GroupForm form;
+import java.util.function.Consumer;
 
-    public EditGroupWindow(Item item, GroupView view) {
-        this.view = view;
+public class EditGroupWindow extends ModalWindow {
+
+    private final GroupForm form;
+
+    private final Consumer<BeanItem<Group>> cons;
+
+    public EditGroupWindow(Item item,
+                           Consumer<BeanItem<Group>> cons) {
+        super("Редактирование группы");
+        this.cons = cons;
 
         form = new GroupForm(item);
-        addComponentAsFirst(form);
-
-        editOkButton.addClickListener
-                (this::EditOkButtonClick);
-        editCancelButton.addClickListener
-                (this::EditCancelButtonClick);
-
-        this.view.getEditWindow().setContent(this);
-        UI.getCurrent().addWindow(this.view.getEditWindow());
+        design.addComponentAsFirst(form);
+        setWindow();
     }
 
-    private void EditOkButtonClick(Button.ClickEvent event){
-        BeanItem item = form.commit();
-        if (item == null)
+    @Override
+    protected void OkButtonClick() {
+        BeanItem<Group> item = form.commit();
+        if (item == null) {
+            Notification.show("Ошибка в заполнении данных.");
             return;
-        for (IGroupViewListener listener: view.getListeners())
-            listener.processData(item);
-        this.view.getEditWindow().close();
-
-    }
-
-    private void EditCancelButtonClick(Button.ClickEvent event){
-        this.view.getEditWindow().close();
+        }
+        cons.accept(item);
+        this.close();
     }
 }

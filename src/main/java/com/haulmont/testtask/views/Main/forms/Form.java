@@ -7,15 +7,16 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
 
+@SuppressWarnings("unchecked")
 public abstract class Form<T extends Entity> extends CustomComponent
         implements IForm<T>{
 
-    protected FormLayout form = new FormLayout();
+    protected final FormLayout form = new FormLayout();
 
-    protected FieldGroup binder;
+    protected final FieldGroup binder = new FieldGroup();
 
-    public Form(){
-        binder = new FieldGroup(createItem());
+    protected Form(){
+        binder.setItemDataSource(createItem());
 
         generateForm();
 
@@ -23,8 +24,8 @@ public abstract class Form<T extends Entity> extends CustomComponent
     }
 
 
-    public Form(Item item){
-        binder = new FieldGroup(item);
+    protected Form(Item item){
+        binder.setItemDataSource(item);
 
         generateForm();
 
