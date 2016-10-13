@@ -1,7 +1,7 @@
-package com.haulmont.testtask.views.Student.presenters;
+package com.haulmont.testtask.presenters.Student;
 
 import com.haulmont.testtask.models.Student.Student;
-import com.haulmont.testtask.views.Main.IViewListener;
+import com.haulmont.testtask.presenters.IViewListener;
 import com.vaadin.data.util.BeanItem;
 
 public interface IStudentViewListener extends IViewListener {

@@ -1,7 +1,7 @@
 package com.haulmont.testtask.views.Group;
 
-import com.haulmont.testtask.views.Group.presenters.GroupPresenter;
-import com.haulmont.testtask.views.Group.presenters.IGroupViewListener;
+import com.haulmont.testtask.presenters.Group.GroupPresenter;
+import com.haulmont.testtask.presenters.Group.IGroupViewListener;
 import com.haulmont.testtask.views.Group.windows.AddGroupWindow;
 import com.haulmont.testtask.views.Group.windows.DeleteGroupWindow;
 import com.haulmont.testtask.views.Group.windows.EditGroupWindow;
@@ -22,8 +22,6 @@ public class GroupView extends AbstractView<IGroupViewListener>
 
     private final GroupViewDesign design = new GroupViewDesign();
 
-    private Grid grid;
-
     @Override
     public GroupViewDesign getDesign() {
         return design;
@@ -33,45 +31,43 @@ public class GroupView extends AbstractView<IGroupViewListener>
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         addListener(new GroupPresenter(this));
         addComponent(design);
-        design.addNewButton.addClickListener((Button.ClickListener) (event3) -> addNewClick());
-        design.editButton.addClickListener((Button.ClickListener) (event2) -> editClick());
-        design.deleteButton.addClickListener((Button.ClickListener) (event1) -> deleteClick());
+        design.addNewButton.addClickListener(this::addNewClick);
+        design.editButton.addClickListener(this::editClick);
+        design.deleteButton.addClickListener(this::deleteClick);
         listeners.forEach(IGroupViewListener::showData);
     }
 
 
     public void generateGrid(BeanItemContainer container,
                              HashMap<String, String> columns){
-        grid = new Grid();
         columns.forEach((id, name) -> {
-            Grid.Column col = grid.addColumn(id);
+            Grid.Column col = design.grid.addColumn(id);
             col.setHeaderCaption(name);
         });
-        grid.setContainerDataSource(container);
-        grid.setSizeFull();
-        design.groupContent.addComponent(grid);
+        design.grid.setContainerDataSource(container);
     }
 
     @Override
     public void addElementToGrid(BeanItem item) {
-        grid.getContainerDataSource().addItem(item.getBean());
+        design.grid.getContainerDataSource().addItem(item.getBean());
     }
 
     @Override
     public void removeElementFromGrid(BeanItem item) {
-        grid.getContainerDataSource().removeItem(item.getBean());
+        design.grid.getContainerDataSource().removeItem(item
+                .getBean());
     }
 
-
-    private void addNewClick(){
+    private void addNewClick(Button.ClickEvent event){
         new AddGroupWindow(res -> {
             for (IGroupViewListener listener : listeners)
                 listener.createData(res);
         });
     }
 
-    private void editClick(){
-        Item item = grid.getContainerDataSource().getItem(grid
+    private void editClick(Button.ClickEvent event){
+        Item item = design.grid.getContainerDataSource().getItem
+                (design.grid
                 .getSelectedRow());
 
         if (item == null) {
@@ -85,8 +81,8 @@ public class GroupView extends AbstractView<IGroupViewListener>
         });
     }
 
-    private void deleteClick(){
-        Object row = grid.getSelectedRow();
+    private void deleteClick(Button.ClickEvent event){
+        Object row = design.grid.getSelectedRow();
 
         if (row == null) {
             createNotify("Не выбрана группа для удаления.");

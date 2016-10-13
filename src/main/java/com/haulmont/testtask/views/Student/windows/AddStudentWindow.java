@@ -5,6 +5,7 @@ import com.haulmont.testtask.views.Main.windows.ModalWindow;
 import com.haulmont.testtask.views.Student.forms.StudentForm;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 
 import java.util.function.Consumer;
@@ -26,7 +27,7 @@ public class AddStudentWindow extends ModalWindow {
     }
 
     @Override
-    protected void OkButtonClick() {
+    protected void OkButtonClick(Button.ClickEvent event) {
         BeanItem<Student> item = form.commit();
         if (item == null){
             Notification.show("Ошибка в заполнении данных.");

@@ -1,7 +1,7 @@
 package com.haulmont.testtask.views.Group;
 
+import com.haulmont.testtask.presenters.IViewListener;
 import com.haulmont.testtask.views.Main.IView;
-import com.haulmont.testtask.views.Main.IViewListener;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 

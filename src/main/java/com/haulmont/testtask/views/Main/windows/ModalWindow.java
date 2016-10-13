@@ -8,9 +8,9 @@ public abstract class ModalWindow extends Window {
 
     protected final ModalWindowDesign design = new ModalWindowDesign();
 
-    protected abstract void OkButtonClick();
+    protected abstract void OkButtonClick(Button.ClickEvent event);
 
-    private void CancelButtonClick(){
+    private void CancelButtonClick(Button.ClickEvent event){
         this.close();
     }
 
@@ -23,8 +23,8 @@ public abstract class ModalWindow extends Window {
         setResizable(false);
         setModal(true);
 
-        design.okButton.addClickListener((Button.ClickListener) (event) -> OkButtonClick());
-        design.cancelButton.addClickListener((Button.ClickListener) (event) -> CancelButtonClick());
+        design.okButton.addClickListener(this::OkButtonClick);
+        design.cancelButton.addClickListener(this::CancelButtonClick);
 
         setContent(design);
         UI.getCurrent().addWindow(this);

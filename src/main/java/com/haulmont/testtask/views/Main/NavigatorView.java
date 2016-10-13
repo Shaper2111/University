@@ -9,11 +9,11 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 
-public class MainView extends MainViewDesign  implements ViewDisplay {
+public class NavigatorView extends NavigatorViewDesign implements ViewDisplay {
 
     private final Navigator navigator;
 
-    public MainView() {
+    public NavigatorView() {
         navigator = new Navigator(UI.getCurrent(),
                 (ViewDisplay) this);
         addViewToNavigator(GroupView.VIEW_NAME, GroupView.class,

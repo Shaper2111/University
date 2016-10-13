@@ -1,7 +1,7 @@
-package com.haulmont.testtask.views.Group.presenters;
+package com.haulmont.testtask.presenters.Group;
 
 import com.haulmont.testtask.models.Group.Group;
-import com.haulmont.testtask.views.Main.IViewListener;
+import com.haulmont.testtask.presenters.IViewListener;
 import com.vaadin.data.util.BeanItem;
 
 public interface IGroupViewListener extends IViewListener {

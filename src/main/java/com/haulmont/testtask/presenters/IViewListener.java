@@ -1,4 +1,4 @@
-package com.haulmont.testtask.views.Main;
+package com.haulmont.testtask.presenters;
 
 public interface IViewListener {
     void showData();

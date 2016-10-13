@@ -5,6 +5,7 @@ import com.haulmont.testtask.views.Group.forms.GroupForm;
 import com.haulmont.testtask.views.Main.windows.ModalWindow;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 
 import java.util.function.Consumer;
@@ -15,8 +16,7 @@ public class EditGroupWindow extends ModalWindow {
 
     private final Consumer<BeanItem<Group>> cons;
 
-    public EditGroupWindow(Item item,
-                           Consumer<BeanItem<Group>> cons) {
+    public EditGroupWindow(Item item,Consumer<BeanItem<Group>> cons) {
         super("Редактирование группы");
         this.cons = cons;
 
@@ -26,7 +26,7 @@ public class EditGroupWindow extends ModalWindow {
     }
 
     @Override
-    protected void OkButtonClick() {
+    protected void OkButtonClick(Button.ClickEvent event) {
         BeanItem<Group> item = form.commit();
         if (item == null) {
             Notification.show("Ошибка в заполнении данных.");

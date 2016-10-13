@@ -1,5 +1,6 @@
 package com.haulmont.testtask.views.Main;
 
+import com.haulmont.testtask.presenters.IViewListener;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 

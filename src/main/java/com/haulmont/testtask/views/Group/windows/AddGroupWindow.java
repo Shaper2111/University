@@ -4,6 +4,7 @@ import com.haulmont.testtask.models.Group.Group;
 import com.haulmont.testtask.views.Group.forms.GroupForm;
 import com.haulmont.testtask.views.Main.windows.ModalWindow;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 
 import java.util.function.Consumer;
@@ -24,7 +25,7 @@ public class AddGroupWindow extends ModalWindow {
     }
 
     @Override
-    protected void OkButtonClick() {
+    protected void OkButtonClick(Button.ClickEvent event) {
         BeanItem<Group> item = form.commit();
         if (item == null){
             Notification.show("Ошибка в заполнении данных.");

@@ -1,4 +1,4 @@
-package com.haulmont.testtask.views.Student.presenters;
+package com.haulmont.testtask.presenters.Student;
 
 import com.haulmont.testtask.models.Student.IStudentDao;
 import com.haulmont.testtask.models.Student.Student;
@@ -8,7 +8,10 @@ import com.haulmont.testtask.views.Student.StudentView;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.ui.renderers.DateRenderer;
+import com.vaadin.ui.renderers.Renderer;
 
+import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -45,17 +48,26 @@ public class StudentPresenter implements IStudentViewListener {
         } catch (DaoException e) {
             view.createNotify("Ошибка: " + e.getMessage());
         }
-        HashMap<String, String> columns = new LinkedHashMap<>();
+        view.generateGrid(container, setColumns(), setRenderers());
 
+    }
+
+    private HashMap<String, String> setColumns(){
+        HashMap<String, String> columns = new LinkedHashMap<>();
         columns.put("id", "Идентификатор");
         columns.put("firstName", "Имя");
         columns.put("midName", "Отчество");
         columns.put("lastName", "Фамилия");
         columns.put("birthDate", "Дата рождения");
         columns.put("groupNumber", "Номер группы");
+        return columns;
+    }
 
-        view.generateGrid(container, columns);
-
+    private HashMap<String, Renderer<?>> setRenderers(){
+        HashMap<String, Renderer<?>> renderers = new HashMap<>();
+        DateFormat format = DateFormat.getDateInstance();
+        renderers.put("birthDate", new DateRenderer(format));
+        return renderers;
     }
 
     @Override

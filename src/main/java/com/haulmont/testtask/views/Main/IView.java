@@ -1,5 +1,6 @@
 package com.haulmont.testtask.views.Main;
 
+import com.haulmont.testtask.presenters.IViewListener;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Component;
 

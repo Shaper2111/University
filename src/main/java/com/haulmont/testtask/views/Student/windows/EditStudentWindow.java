@@ -6,6 +6,7 @@ import com.haulmont.testtask.views.Student.forms.StudentForm;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.ui.Button;
 
 import java.util.function.Consumer;
 
@@ -15,8 +16,7 @@ public class EditStudentWindow extends ModalWindow {
 
     private final Consumer<BeanItem<Student>> cons;
 
-    public EditStudentWindow(Item item,
-                             IndexedContainer groups,
+    public EditStudentWindow(Item item, IndexedContainer groups,
                              Consumer<BeanItem<Student>> cons) {
         super("Редактирование профиля");
         this.cons = cons;
@@ -27,7 +27,7 @@ public class EditStudentWindow extends ModalWindow {
     }
 
     @Override
-    protected void OkButtonClick() {
+    protected void OkButtonClick(Button.ClickEvent event) {
         BeanItem<Student> item = form.commit();
         if (item == null)
             return;

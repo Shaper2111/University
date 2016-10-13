@@ -1,4 +1,4 @@
-package com.haulmont.testtask.views.Group.presenters;
+package com.haulmont.testtask.presenters.Group;
 
 import com.haulmont.testtask.models.Group.Group;
 import com.haulmont.testtask.models.Group.IGroupDao;
@@ -32,13 +32,16 @@ public class GroupPresenter implements IGroupViewListener {
         } catch (DaoException e) {
             e.printStackTrace();
         }
-        HashMap<String, String> columns = new LinkedHashMap<>();
 
+        view.generateGrid(container, setColumns());
+    }
+
+    private HashMap<String, String> setColumns(){
+        HashMap<String, String> columns = new LinkedHashMap<>();
         columns.put("id", "Идентификатор");
         columns.put("number", "Номер группы");
         columns.put("department", "Факультет");
-
-        view.generateGrid(container, columns);
+        return columns;
     }
 
     @Override
