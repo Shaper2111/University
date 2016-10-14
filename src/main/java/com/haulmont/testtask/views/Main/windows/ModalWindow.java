@@ -4,6 +4,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
+/**
+ * Basic modal window, that holds design, settings and buttons.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public abstract class ModalWindow extends Window {
 
     protected final ModalWindowDesign design = new ModalWindowDesign();

@@ -5,14 +5,12 @@
 
   .side-bar {
     background-color: aliceblue;
-    //border-right: solid 2px steelblue;
     .v-caption-header-label {
       font-size: 20px;
     }
     .v-verticallayout {
       color: white;
       background-color: slateblue;
-      //border-bottom: solid 2px steelblue;
       margin-bottom: 10px;
     }
   }
@@ -30,6 +28,10 @@
     background-color: transparent;
     border-radius: 0;
     border: none;
+  }
+  .menu-selected {
+    background-color: slateblue;
+    color: white;
   }
   .menu-button:hover {
     background-color: slateblue;
@@ -74,5 +76,17 @@
   .CancelButton:hover {
     color: white;
     background-color: darkred;
+  }
+  .warning {
+    background: indianred;
+    .v-Notification-caption{
+      color: #fff;
+    }
+  }
+  .humanized {
+    background-color: slateblue;
+    .v-Notification-caption{
+      color: #fff;
+    }
   }
 }

@@ -10,6 +10,12 @@ import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.TextField;
 
+/**
+ * Form that represents all Group fields and their validation.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class GroupForm extends Form<Group> {
 
     private final TextField id = new TextField("Идентификатор:");

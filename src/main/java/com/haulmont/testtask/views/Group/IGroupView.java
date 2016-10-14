@@ -7,8 +7,14 @@ import com.vaadin.data.util.BeanItemContainer;
 
 import java.util.HashMap;
 
-public interface IGroupView<T extends IViewListener> extends
-        IView<T> {
+/**
+ * Simple interface for vaadin-based view. Holds specific methods
+ * for represent data to user.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
+public interface IGroupView<T extends IViewListener> extends IView<T>{
     void generateGrid(BeanItemContainer container, HashMap<String,
             String> columns);
     void addElementToGrid(BeanItem item);

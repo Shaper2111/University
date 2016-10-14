@@ -11,6 +11,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO class that realizes custom entity-specific methods.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class GroupDao extends GenericDao<Group, Long>
         implements IGroupDao<Group> {
 
@@ -32,7 +38,8 @@ public class GroupDao extends GenericDao<Group, Long>
         } catch (DBException e) {
             throw new DaoException(e);
         } catch (SQLException e) {
-            throw new DaoException("getAll SQL Error: ", e);
+            throw new DaoException("При получении записей произошла" +
+                    " ошибка.");
         }
     }
 
@@ -49,22 +56,8 @@ public class GroupDao extends GenericDao<Group, Long>
         } catch (DBException e) {
             throw new DaoException(e);
         } catch (SQLException e) {
-            throw new DaoException("getOnlyIdWithNumbers SQL Error: ",
-                    e);
-        }
-    }
-
-    @Override
-    public Integer existsNumber(Integer number) throws DaoException {
-        String sql = "SELECT 1 FROM GROUPS WHERE ID = " + number;
-        try (PreparedStatement pres = DBConnection.getInstance()
-                .getConnection().prepareStatement(sql)) {
-            ResultSet rs = pres.executeQuery();
-            return rs.getInt(1);
-        } catch (DBException e) {
-            throw new DaoException(e);
-        } catch (SQLException e) {
-            throw new DaoException("existsNumber SQL Error: ", e);
+            throw new DaoException("При получении записей произошла" +
+                    " ошибка.");
         }
     }
 

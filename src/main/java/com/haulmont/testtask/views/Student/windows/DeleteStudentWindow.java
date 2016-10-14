@@ -8,6 +8,12 @@ import com.vaadin.ui.Label;
 
 import java.util.function.Consumer;
 
+/**
+ * Modal window for deleting existing Student from grid.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class DeleteStudentWindow extends ModalWindow {
 
     private final BeanItem<Student> student;

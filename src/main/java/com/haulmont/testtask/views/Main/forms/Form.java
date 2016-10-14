@@ -7,6 +7,14 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
 
+/**
+ * Abstract Form class, that holds form properties and returns
+ * result after form validation. Suppress unchecked warnings
+ * because there is no way to check Item-to-BeanItem<T> casting.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 @SuppressWarnings("unchecked")
 public abstract class Form<T extends Entity> extends CustomComponent
         implements IForm<T>{

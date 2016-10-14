@@ -6,8 +6,14 @@ import com.haulmont.testtask.models.db.exceptions.DaoException;
 
 import java.util.List;
 
-
-public interface IStudentDao<Student extends Entity> extends 
+/**
+ * DAO interface for all Student POJO CRUD operations.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ * @param <Student> Student POJO
+ */
+public interface IStudentDao<Student extends Entity> extends
         IGenericDao<Student, Long> {
     
     List<Student> getAll() throws DaoException;

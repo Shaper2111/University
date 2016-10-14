@@ -15,6 +15,13 @@ import com.vaadin.ui.Grid;
 
 import java.util.HashMap;
 
+/**
+ * Simple view that shows design, listen user actions and gives it
+ * to presenter.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class GroupView extends AbstractView<IGroupViewListener>
         implements IGroupView<IGroupViewListener> {
 

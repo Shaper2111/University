@@ -20,6 +20,13 @@ import com.vaadin.ui.renderers.Renderer;
 
 import java.util.HashMap;
 
+/**
+ * Student view layer that represents design to user and listen
+ * buttons.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class StudentView extends AbstractView<IStudentViewListener>
         implements IStudentView<IStudentViewListener> {
 

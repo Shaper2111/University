@@ -13,17 +13,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO class that realizes custom entity-specific methods.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class StudentDao extends GenericDao<Student, Long>
         implements IStudentDao<Student> {
 
-    @Override
-    public Class<Long> getPkClass() {
-        return Long.class;
-    }
 
-    @Override
-    public List<Student> getAll() throws DaoException {
-        String sql = "SELECT * FROM STUDENTS";
+    private List<Student> getListQuery(String sql) throws
+            DaoException {
         try (PreparedStatement pres = DBConnection.getInstance()
                 .getConnection().prepareStatement(sql)) {
             ResultSet rs = pres.executeQuery();
@@ -35,8 +36,19 @@ public class StudentDao extends GenericDao<Student, Long>
         } catch (DBException e) {
             throw new DaoException(e);
         } catch (SQLException e) {
-            throw new DaoException("getAll SQL Error", e);
+            throw new DaoException("При получении записей произошла" +
+                    " ошибка.");
         }
+    }
+
+    @Override
+    public Class<Long> getPkClass() {
+        return Long.class;
+    }
+
+    @Override
+    public List<Student> getAll() throws DaoException {
+        return getListQuery("SELECT * FROM STUDENTS");
     }
 
     @Override
@@ -56,21 +68,7 @@ public class StudentDao extends GenericDao<Student, Long>
             sql += isLastName ? " AND " : " WHERE ";
             sql += "GROUPNUMBER = " + groupNumber;
         }
-
-        try (PreparedStatement pres = DBConnection.getInstance()
-                .getConnection().prepareStatement(sql)) {
-            ResultSet rs = pres.executeQuery();
-            List<Student> list = new ArrayList<>();
-            while (rs.next()) {
-                list.add(parseResult(rs));
-            }
-            return list;
-        } catch (DBException e) {
-            throw new DaoException(e);
-        } catch (SQLException e) {
-            throw new DaoException("getStudentsByLastName SQL Error",
-                    e);
-        }
+        return getListQuery(sql);
     }
 
     @Override

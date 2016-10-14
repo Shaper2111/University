@@ -8,9 +8,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Generic interface that describes basic CRUD methods.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
+public interface IGenericDao<T extends Entity, PK extends
+        Serializable> {
 
-public interface IGenericDao<T extends Entity, PK extends Serializable> {
-
+    /**
+     * Method that gives primary key class for casting.
+     *
+     * @return as example Long.class
+     */
     Class<PK> getPkClass();
 
     PK create(T obj) throws DaoException;

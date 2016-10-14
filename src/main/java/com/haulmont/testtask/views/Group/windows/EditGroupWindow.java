@@ -10,6 +10,12 @@ import com.vaadin.ui.Notification;
 
 import java.util.function.Consumer;
 
+/**
+ * Modal window for editing Group element in grid.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class EditGroupWindow extends ModalWindow {
 
     private final GroupForm form;

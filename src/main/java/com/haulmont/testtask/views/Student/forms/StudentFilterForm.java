@@ -9,6 +9,12 @@ import com.vaadin.ui.TextField;
 
 import java.util.function.BiConsumer;
 
+/**
+ * StudentFilterForm
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class StudentFilterForm {
 
     private final Grid.FooterRow row;

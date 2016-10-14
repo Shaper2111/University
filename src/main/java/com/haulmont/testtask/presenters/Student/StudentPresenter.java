@@ -15,6 +15,13 @@ import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+/**
+ * Presents data processing for Student entity. Returns data to
+ * view, handles exceptions.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class StudentPresenter implements IStudentViewListener {
 
     private final IStudentDao<Student> dao;
@@ -30,8 +37,7 @@ public class StudentPresenter implements IStudentViewListener {
         try {
             return new IndexedContainer(dao.getGroupsForSelect());
         } catch (DaoException e) {
-            view.createNotify("Ошибка при получении списка групп: " +
-                    e.getMessage());
+            view.createNotify(e);
         }
         return null;
     }
@@ -46,7 +52,7 @@ public class StudentPresenter implements IStudentViewListener {
         try {
             container.addAll(dao.getAll());
         } catch (DaoException e) {
-            view.createNotify("Ошибка: " + e.getMessage());
+            view.createNotify(e);
         }
         view.generateGrid(container, setColumns(), setRenderers());
 

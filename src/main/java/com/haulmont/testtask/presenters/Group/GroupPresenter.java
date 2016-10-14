@@ -12,7 +12,13 @@ import com.vaadin.data.util.BeanItemContainer;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-
+/**
+ * Presenter realization for Group entity. Process data, returns it
+ * to view and catch exceptions.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class GroupPresenter implements IGroupViewListener {
     private final IGroupDao<Group> dao;
 
@@ -30,7 +36,7 @@ public class GroupPresenter implements IGroupViewListener {
         try {
             container.addAll(dao.getAll());
         } catch (DaoException e) {
-            e.printStackTrace();
+            view.createNotify(e);
         }
 
         view.generateGrid(container, setColumns());
@@ -52,7 +58,7 @@ public class GroupPresenter implements IGroupViewListener {
             view.addElementToGrid(item);
             view.createNotify("Группа успешно добавлена.");
         } catch (DaoException e) {
-            view.createNotify("Ошибка создания: " + e.getMessage());
+            view.createNotify(e);
         }
     }
 
@@ -63,7 +69,7 @@ public class GroupPresenter implements IGroupViewListener {
             dao.update(group);
             view.createNotify("Группа успешно обновлена.");
         } catch (DaoException e) {
-            view.createNotify("Ошибка обновления: " + e.getMessage());
+            view.createNotify(e);
         }
     }
 
@@ -74,7 +80,7 @@ public class GroupPresenter implements IGroupViewListener {
             view.removeElementFromGrid(item);
             view.createNotify("Группа успешно удалена.");
         } catch (DaoException e) {
-            view.createNotify("Ошибка удаления: " + e.getMessage());
+            view.createNotify(e);
         }
     }
 }

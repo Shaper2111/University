@@ -1,7 +1,14 @@
 package com.haulmont.testtask.models.Group;
+
 import com.haulmont.testtask.models.Entity;
 
 
+/**
+ * Group entity in POJO realization.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class Group extends Entity {
 
     private Integer number;

@@ -7,9 +7,14 @@ import com.haulmont.testtask.models.db.exceptions.DaoException;
 import java.io.Serializable;
 import java.sql.*;
 
-
-public abstract class GenericDao<T extends Entity, PK extends Serializable>
-        implements IGenericDao<T, PK> {
+/**
+ * Generic abstract DAO layer for CRUD operations.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
+public abstract class GenericDao<T extends Entity, PK extends
+        Serializable> implements IGenericDao<T, PK> {
 
     @Override
     public PK create(T obj) throws DaoException {
@@ -29,7 +34,8 @@ public abstract class GenericDao<T extends Entity, PK extends Serializable>
             throw new DaoException("Запись нарушает ограничение " +
                     "уникальности.");
         } catch (SQLException e) {
-            throw new DaoException("В запросе произошла ошибка.");
+            throw new DaoException("При создании записи произошла " +
+                    "ошибка.");
         }
     }
 
@@ -44,7 +50,8 @@ public abstract class GenericDao<T extends Entity, PK extends Serializable>
         } catch (DBException e) {
             throw new DaoException(e);
         } catch (SQLException e) {
-            throw new DaoException("В запросе произошла ошибка.", e);
+            throw new DaoException("При получении записи произошла " +
+                    "ошибка.");
         }
     }
 
@@ -61,7 +68,8 @@ public abstract class GenericDao<T extends Entity, PK extends Serializable>
             throw new DaoException("Запись нарушает ограничение " +
                     "уникальности.");
         } catch (SQLException e) {
-            throw new DaoException("В запросе произошла ошибка.", e);
+            throw new DaoException("При обновлении записи произошла" +
+                    " ошибка.");
         }
     }
 
@@ -75,8 +83,8 @@ public abstract class GenericDao<T extends Entity, PK extends Serializable>
         } catch (DBException e) {
             throw new DaoException(e);
         } catch (SQLException e) {
-            throw new DaoException("Error while execute get SQL " +
-                    "statement", e);
+            throw new DaoException("При удалении записи произошла " +
+                    "ошибка.", e);
         }
     }
 }

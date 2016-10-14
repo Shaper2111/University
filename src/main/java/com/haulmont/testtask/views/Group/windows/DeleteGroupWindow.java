@@ -8,6 +8,12 @@ import com.vaadin.ui.Label;
 
 import java.util.function.Consumer;
 
+/**
+ * Modal window for deleting Group element from grid.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class DeleteGroupWindow extends ModalWindow {
 
     private final BeanItem<Group> group;

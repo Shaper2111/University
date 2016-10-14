@@ -10,6 +10,12 @@ import com.vaadin.ui.Notification;
 
 import java.util.function.Consumer;
 
+/**
+ * Modal window for adding new Student element in grid.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
 public class AddStudentWindow extends ModalWindow {
 
     private final StudentForm form;

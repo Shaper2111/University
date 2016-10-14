@@ -9,7 +9,16 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
 
-public class NavigatorView extends NavigatorViewDesign implements ViewDisplay {
+/**
+ * Main view for navigation between other views.
+ *
+ * @version 1.0.0 14.10.2016
+ * @author Leonid Gubarkov
+ */
+public class NavigatorView extends NavigatorViewDesign implements
+        ViewDisplay {
+
+    private static final String STYLE_SELECTED = "menu-selected";
 
     private final Navigator navigator;
 
@@ -37,8 +46,26 @@ public class NavigatorView extends NavigatorViewDesign implements ViewDisplay {
         menuButton.setData(viewClass.getName());
     }
 
+    private void adjustStyleByData(Component component, Object data) {
+        if (component instanceof Button) {
+            if (data != null && data.equals
+                    (((Button) component).getData())) {
+                component.addStyleName(STYLE_SELECTED);
+            } else {
+                component.removeStyleName(STYLE_SELECTED);
+            }
+        }
+    }
+
     @Override
     public void showView(View view) {
+        if (view instanceof Component) {
         scrollPanel.setContent((Component) view);
+            for (Component aSideBar : sideBar) {
+                adjustStyleByData(aSideBar, view.getClass().getName());
+            }
+        } else
+            throw new IllegalArgumentException
+                    ("View is not a Component");
     }
 }
